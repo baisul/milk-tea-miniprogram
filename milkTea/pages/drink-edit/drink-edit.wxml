@@ -1,0 +1,139 @@
+<!-- pages/drink-edit/drink-edit.wxml - 新增/编辑饮品页 -->
+<wxs src="../../utils/style.wxs" module="style" />
+<view class="drink-edit-page">
+  <nav-bar 
+    title="饮品管理"
+    showBack="{{true}}"
+    titleColor="#FFFFFF"
+    backgroundColor="linear-gradient(135deg, #FF9A56, #FF7A2E)"
+    isFixed="{{true}}"
+    bind:heightChange="onNavHeightChange"
+  />
+  <!-- 图片上传 -->
+  <view class="form-section">
+    <text class="section-title">饮品图片</text>
+    <view class="image-upload" bindtap="chooseImage">
+      <image class="upload-image" wx:if="{{image}}" src="{{image}}" mode="aspectFill" />
+      <view class="upload-placeholder" wx:else>
+        <text class="upload-icon">+</text>
+        <text class="upload-text">上传图片</text>
+      </view>
+      <view class="upload-loading" wx:if="{{uploading}}">
+        <text>上传中...</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 基本信息 -->
+  <view class="form-section">
+    <text class="section-title">基本信息</text>
+
+    <view class="form-item">
+      <text class="form-label">饮品名称</text>
+      <text class="form-required">*</text>
+      <input class="form-input" placeholder="请输入饮品名称" value="{{name}}" bindinput="onNameInput" maxlength="30" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">价格（元）</text>
+      <text class="form-required">*</text>
+      <input class="form-input" type="digit" placeholder="请输入价格" value="{{price}}" bindinput="onPriceInput" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">库存</text>
+      <text class="form-required">*</text>
+      <input class="form-input" type="number" placeholder="请输入库存数量" value="{{stock}}" bindinput="onStockInput" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">描述</text>
+      <textarea class="form-textarea" placeholder="请输入饮品描述（选填）" value="{{description}}" bindinput="onDescInput" maxlength="200" auto-height />
+    </view>
+  </view>
+
+  <!-- 规格设置（多选） -->
+  <view class="form-section">
+    <text class="section-title">规格设置</text>
+    <text class="section-hint">（可多选，下单时用户可选择）</text>
+
+    <!-- 杯型（多选 + 加价） -->
+    <view class="spec-group">
+      <text class="spec-label">杯型 <text class="spec-count">(已选{{cupSizes.length}}种)</text></text>
+      <view class="spec-tags">
+        <block wx:for="{{cupSizeOptionsWithStatus}}" wx:key="value">
+          <view class="spec-tag-item">
+            <view class="spec-tag {{item.selected ? 'active' : ''}}" 
+              data-value="{{item.value}}" bindtap="toggleCupSize">
+              <text>{{item.label}}</text>
+              <text class="spec-check" wx:if="{{item.selected}}">✓</text>
+            </view>
+           <!-- 加价输入框 - 使用 item.selected 判断 -->
+        <view class="extra-price-input" wx:if="{{item.selected}}">
+          <text class="extra-label">+¥</text>
+          <input 
+            class="extra-input" 
+            type="digit" 
+            placeholder="0"
+            value="{{cupSizeExtras[item.value]}}"
+            data-value="{{item.value}}"
+            bindinput="onCupSizeExtraInput"
+            bindblur="onCupSizeExtraBlur"
+          />
+        </view>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <!-- 温度（多选） -->
+    <view class="spec-group">
+      <text class="spec-label">温度 <text class="spec-count">(已选{{temperatures.length}}种)</text></text>
+      <view class="spec-tags">
+        <block wx:for="{{temperatureOptionsWithStatus}}" wx:key="value">
+          <view class="spec-tag-item">
+            <view class="spec-tag" 
+                  style="{{style.getSpecStyle(temperatures, item.value)}}"
+                  data-value="{{item.value}}" bindtap="toggleTemperature">
+              <text>{{item.label}}</text>
+              <text class="spec-check" wx:if="{{item.selected}}">✓</text>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <!-- 甜度（多选） -->
+    <view class="spec-group">
+      <text class="spec-label">甜度 <text class="spec-count">(已选{{sweetnesses.length}}种)</text></text>
+      <view class="spec-tags">
+        <block wx:for="{{sweetnessOptionsWithStatus}}" wx:key="value">
+          <view class="spec-tag-item">
+            <view class="spec-tag" 
+                  style="{{style.getSpecStyle(sweetnesses, item.value)}}"
+                  data-value="{{item.value}}" bindtap="toggleSweetness">
+              <text>{{item.label}}</text>
+              <text class="spec-check" wx:if="{{item.selected}}">✓</text>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+
+  <!-- 上架状态 -->
+  <view class="form-section">
+    <view class="shelf-row">
+      <text class="shelf-label">上架状态</text>
+      <switch class="shelf-switch" checked="{{isOnShelf}}" bindchange="toggleShelf" color="#FF7A2E" />
+    </view>
+    <text class="shelf-hint">{{isOnShelf ? '上架后用户可在点单页看到此饮品' : '下架后用户将无法看到此饮品'}}</text>
+  </view>
+
+  <!-- 底部保存按钮 -->
+  <view class="bottom-bar">
+    <view class="save-btn {{submitting ? 'disabled' : ''}}" bindtap="onSave">
+      <text>{{submitting ? '保存中...' : '保存'}}</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,83 @@
+<!--pages/menu/menu.wxml - 分类点单页-->
+<view class="menu-page">
+  <!-- 顶部店铺信息 -->
+  <nav-bar 
+  title="{{shopName}}" 
+  showBack="{{true}}"
+  backgroundColor="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+/>
+  
+
+  <!-- 主体区域：左分类 + 右饮品列表 -->
+  <view class="menu-body">
+    <!-- 左侧分类栏 -->
+    <scroll-view class="category-sidebar" scroll-y enhanced show-scrollbar="{{false}}">
+      <view class="category-item {{currentCategory === item._id ? 'active' : ''}}"
+            wx:for="{{categories}}" wx:key="_id"
+            data-id="{{item._id}}" bindtap="switchCategory">
+        <text class="category-name">{{item.name}}</text>
+      </view>
+    </scroll-view>
+
+    <!-- 右侧饮品列表 -->
+    <scroll-view class="drink-list" scroll-y enhanced show-scrollbar="{{false}}">
+      <!-- 加载中 -->
+      <view class="loading-wrap" wx:if="{{loading}}">
+        <view class="loading-dots">
+          <view class="loading-dot"></view>
+          <view class="loading-dot"></view>
+          <view class="loading-dot"></view>
+        </view>
+      </view>
+
+      <!-- 空状态 -->
+      <empty-state wx:elif="{{drinks.length === 0}}" text="该分类暂无饮品" />
+
+      <!-- 饮品列表 -->
+      <view class="drink-items" wx:else>
+        <view class="drink-item fade-in" wx:for="{{drinks}}" wx:key="_id">
+          <image class="drink-image" src="{{item.image}}" mode="aspectFill" bindtap="showSpec" data-drink="{{item}}" />
+          <view class="drink-info">
+            <text class="drink-name">{{item.name}}</text>
+            <text class="drink-desc">{{item.description || ''}}</text>
+            <view class="drink-bottom">
+              <text class="drink-price">
+                <text class="price-symbol">¥</text>{{item.price}}
+              </text>
+              <text class="drink-stock" wx:if="{{item.stock <= 10 && item.stock > 0}}">仅剩{{item.stock}}杯</text>
+              <text class="drink-stock sold-out" wx:if="{{item.stock <= 0}}">已售罄</text>
+              <view class="add-btn {{item.stock <= 0 ? 'disabled' : ''}}" 
+                    wx:if="{{item.stock > 0}}"
+                    bindtap="showSpec" data-drink="{{item}}">+</view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 底部留白（为购物车栏留空间） -->
+      <view style="height: 160rpx;"></view>
+    </scroll-view>
+  </view>
+
+  <!-- 底部购物车栏 -->
+  <cart-bar count="{{cartCount}}" total="{{cartTotal}}" bind:cart="showCartPopup" bind:checkout="goCheckout" />
+
+  <!-- 购物车弹框组件 -->
+  <cart-popup 
+    id="cartPopup"
+    shopId="{{shopId}}"
+    shopName="{{shopName}}"
+    bind:edit="onEditCartItem"
+    bind:checkout="onPopupCheckout"
+    bind:refresh="onCartRefresh"
+  />
+
+  <!-- 使用规格选择组件（移除原有的规格弹窗） -->
+  <spec-picker 
+    id="specPicker"
+    shopId="{{shopId}}"
+    shopName="{{shopName}}"
+    bind:close="onSpecClose"
+    bind:add="onSpecAdd"
+  />
+</view>

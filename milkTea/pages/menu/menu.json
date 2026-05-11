@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "cart-bar": "/components/cart-bar/cart-bar",
+    "spec-picker": "/components/spec-picker/spec-picker",
+    "empty-state": "/components/empty-state/empty-state",
+    "nav-bar": "/components/nav-bar/nav-bar",
+    "cart-popup": "/components/cart-popup/cart-popup"
+  },
+  "navigationBarTitleText": "点餐"
+}

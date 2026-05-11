@@ -1,0 +1,46 @@
+/* 横向一行布局 */
+.region-picker.row-layout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.region-picker.row-layout .field {
+  flex: 1;
+  margin: 0 5px;
+  position: relative;
+}
+
+/* 可选：添加分隔符效果 */
+.region-picker.row-layout .field:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 20px;
+  background-color: #e5e5e5;
+}
+
+/* picker 样式 */
+.field-picker {
+  width: 100%;
+}
+
+.field-value {
+  padding: 12px 8px;
+  background-color: #f5f5f5;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 14px;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 如果需要保留标签，可以这样显示 */
+/* 如果不需要标签，上面的代码已经移除了 .field-label */

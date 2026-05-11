@@ -1,0 +1,25 @@
+<view class="region-picker row-layout">
+  <view class="field">
+    <picker mode="selector" range="{{provinceNames}}" value="{{provinceIndex}}" bindchange="onProvinceChange">
+      <view class="field-value">
+        {{provinceNames[provinceIndex]}}
+      </view>
+    </picker>
+  </view>
+
+  <view class="field">
+    <picker mode="selector" range="{{citiesNames}}" value="{{cityIndex}}" bindchange="onCityChange">
+      <view class="field-value">
+        {{citiesNames[cityIndex]}}
+      </view>
+    </picker>
+  </view>
+
+  <view class="field">
+    <picker mode="selector" range="{{districtsNames}}" value="{{districtIndex}}" bindchange="onDistrictChange">
+      <view class="field-value">
+        {{districtsNames[districtIndex]}}
+      </view>
+    </picker>
+  </view>
+</view>

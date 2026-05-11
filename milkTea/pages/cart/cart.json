@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "empty-state": "/components/empty-state/empty-state",
+    "confirm-dialog": "/components/confirm-dialog/confirm-dialog"
+  },
+  "navigationBarTitleText": "购物车"
+}

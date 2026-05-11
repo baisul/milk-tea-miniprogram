@@ -1,0 +1,85 @@
+<view class="chat-container">
+  <!-- 消息列表区域 -->
+  <scroll-view 
+    class="message-area" 
+    scroll-y="true" 
+    scroll-top="{{scrollTop}}" 
+    scroll-into-view="{{scrollIntoView}}"
+    id="messageScroll"
+    bindscrolltolower="onScrollToLower"
+    bindscrolltoupper="onScrollToUpper"
+    lower-threshold="50"
+    upper-threshold="50"
+    enhanced="{{true}}"
+    show-scrollbar="{{false}}"
+  >
+    <view wx:for="{{messages}}" wx:key="index" class="message-item {{item.role}}">
+      <view class="message-bubble">
+        <text>{{item.content}}</text>
+      </view>
+    </view>
+    
+    <view wx:if="{{isTyping}}" class="message-item assistant">
+      <view class="message-bubble typing">
+        <text>正在思考...</text>
+      </view>
+    </view>
+    
+    <view id="chat-top"></view>
+    <view id="chat-bottom"></view>
+  </scroll-view>
+
+  <!-- 底部区域 -->
+  <view class="bottom-area">
+    <!-- 顶部工具栏：模型切换 + 置顶 + 置底 + 清空聊天 -->
+    <view class="toolbar">
+      <view class="model-selector" bindtap="switchModel">
+        <text class="model-icon">🤖</text>
+        <text class="model-name">{{modelName}}</text>
+        <text class="model-arrow">⌵</text>
+      </view>
+      
+      <view class="toolbar-right">
+        <!-- 置顶按钮 -->
+        <view class="tool-btn scroll-top-btn" bindtap="scrollToTop">
+          <image class="tool-icon" src="/images/arrow-up-circle.png" mode="aspectFit"></image>
+        </view>
+        
+        <!-- 置底按钮 -->
+        <view class="tool-btn scroll-bottom-btn" bindtap="scrollToBottom">
+          <image class="tool-icon" src="/images/direction-down-circle.png" mode="aspectFit"></image>
+        </view>
+        
+        <!-- 清空聊天按钮 -->
+        <view class="clear-chat-btn" bindtap="clearAllChat">
+          <image class="tool-icon" src="/images/clear-chat-content.png" mode="aspectFit"></image>
+        </view>
+      </view>
+    </view>
+
+    <!-- 输入框行 -->
+    <view class="input-wrapper">
+      <textarea 
+        class="input-box" 
+        value="{{inputText}}" 
+        placeholder="输入消息..." 
+        placeholder-class="placeholder"
+        bindinput="onInput"
+        bindconfirm="sendMessage"
+        confirm-type="send"
+        auto-height="{{true}}"
+        maxlength="-1"
+        show-confirm-bar="{{false}}"
+        adjust-position="{{true}}"
+      />
+      
+      <view class="action-btn clear-input-btn" bindtap="clearInput">
+        <image class="btn-image" src="/images/delete.png" mode="aspectFit"></image>
+      </view>
+      
+      <view class="action-btn send-btn {{inputText ? 'active' : ''}}" bindtap="sendMessage">
+        <image class="btn-image" src="/images/send.png" mode="aspectFit"></image>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,15 @@
+<view class="cart-bar" wx:if="{{count > 0}}">
+  <view class="cart-left" bindtap="onCartTap">
+    <view class="cart-icon-wrap">
+      <image class="cart-icon" src="/images/cart-icon.png" mode="aspectFit" />
+      <view class="cart-badge" wx:if="{{count > 0}}">{{count > 99 ? '99+' : count}}</view>
+    </view>
+    <view class="cart-info">
+      <text class="cart-total">¥{{displayTotal}}</text>
+      <text class="cart-desc">另需配送费¥0</text>
+    </view>
+  </view>
+  <view class="cart-btn" bindtap="onCheckoutTap">
+    <text>去结算</text>
+  </view>
+</view>

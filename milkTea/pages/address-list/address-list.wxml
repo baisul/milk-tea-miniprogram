@@ -1,0 +1,78 @@
+<!--pages/address-list/address-list.wxml - 收货地址列表页-->
+<view class="address-list-page">
+  <!-- 使用导航栏组件，显示返回按钮 -->
+  <nav-bar 
+    title="收货地址管理"
+    showBack="{{true}}"
+    titleColor="#FFFFFF"
+    backgroundColor="linear-gradient(135deg, #FF9A56, #FF7A2E)"
+    isFixed="{{true}}"
+    bind:heightChange="onNavHeightChange"
+  />
+
+  <!-- 加载中 -->
+  <view class="loading-wrap" wx:if="{{loading}}">
+    <view class="loading-dots">
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-wrap" wx:elif="{{addressList.length === 0}}">
+    <empty-state text="暂无收货地址" icon="/images/icon-address.png" />
+    <view class="empty-btn" bindtap="onAddAddress">
+      <text class="empty-btn-text">+ 新增收货地址</text>
+    </view>
+  </view>
+
+  <!-- 地址列表 -->
+  <view class="address-list" wx:else>
+    <view class="address-card fade-in {{selectMode ? 'selectable' : ''}}" wx:for="{{addressList}}" wx:key="_id" data-index="{{index}}" bindtap="onSelectAddress">
+      <!-- 默认标签 -->
+      <view class="default-badge" wx:if="{{item.isDefault}}">默认</view>
+
+      <!-- 收件人信息 -->
+      <view class="address-header">
+        <text class="address-name">{{item.name}}</text>
+        <text class="address-gender">{{item.genderText}}</text>
+        <text class="address-phone">{{item.phone}}</text>
+        <view class="address-tag {{item.tag}}" wx:if="{{item.tag}}">
+          <text>{{item.tagText}}</text>
+        </view>
+      </view>
+
+      <!-- 地址详情 -->
+      <text class="address-detail">{{item.fullAddress}}</text>
+
+      <!-- 操作按钮 -->
+      <view class="address-actions">
+        <view class="action-item" catchtap="onSetDefault" data-id="{{item._id}}">
+          <view class="action-check {{item.isDefault ? 'checked' : ''}}">
+            <text wx:if="{{item.isDefault}}">✓</text>
+          </view>
+          <text class="action-text">默认地址</text>
+        </view>
+        <view class="action-item" catchtap="onEditAddress" data-id="{{item._id}}">
+          <text class="action-icon-text">✎</text>
+          <text class="action-text">编辑</text>
+        </view>
+        <view class="action-item action-danger" catchtap="onDeleteAddress" data-id="{{item._id}}">
+          <text class="action-icon-text">✕</text>
+          <text class="action-text">删除</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部新增按钮 -->
+  <view class="bottom-bar" wx:if="{{addressList.length > 0}}">
+    <view class="add-btn btn-primary" bindtap="onAddAddress">
+      <text>+ 新增收货地址</text>
+    </view>
+  </view>
+
+  <!-- 底部留白 -->
+  <view class="page-bottom-space"></view>
+</view>

@@ -1,0 +1,164 @@
+.container {
+  min-height: 100vh;
+  padding-bottom: 20rpx;
+}
+
+/* 搜索栏 */
+.search-bar {
+  background: #fff;
+  padding: 20rpx 30rpx;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.search-input-wrapper {
+  background: #F5F5F5;
+  border-radius: 40rpx;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  padding: 0 24rpx;
+}
+
+.search-icon {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 16rpx;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+}
+
+/* 位置信息 */
+.location-info {
+  background: #FFF9F0;
+  padding: 20rpx 30rpx;
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+}
+
+.location-icon {
+  width: 24rpx;
+  height: 24rpx;
+  margin-right: 10rpx;
+}
+
+.location-text {
+  color: #FF7A2E;
+  flex: 1;
+}
+
+.relocate {
+  color: #FF7A2E;
+  padding: 8rpx 20rpx;
+  background: #fff;
+  border-radius: 20rpx;
+}
+
+/* 店铺列表 */
+.shop-list {
+  padding: 20rpx 30rpx;
+}
+
+.shop-item {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.shop-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.shop-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.shop-distance {
+  font-size: 24rpx;
+  color: #999;
+  background: #F5F5F5;
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+.shop-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12rpx;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.info-icon {
+  width: 24rpx;
+  height: 24rpx;
+  margin-right: 12rpx;
+  opacity: 0.6;
+}
+
+.info-text {
+  flex: 1;
+}
+
+.shop-status {
+  margin-top: 20rpx;
+}
+
+.status-tag {
+  display: inline-block;
+  font-size: 22rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 8rpx;
+}
+
+.status-tag.open {
+  background: #E8F8F0;
+  color: #52C41A;
+}
+
+/* 全屏加载 */
+.loading-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255,255,255,0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.loading-icon {
+  width: 60rpx;
+  height: 60rpx;
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 28rpx;
+  color: #999;
+  margin-top: 20rpx;
+}

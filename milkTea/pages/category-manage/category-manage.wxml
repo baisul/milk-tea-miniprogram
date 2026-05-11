@@ -1,0 +1,172 @@
+<!-- pages/category-manage/category-manage.wxml - 饮品分类管理页 -->
+<view class="category-page">
+  <!-- 顶部导航栏 -->
+  <nav-bar 
+    title="饮品分类管理"
+    showBack="{{true}}"
+    titleColor="#FFFFFF"
+    backgroundColor="linear-gradient(135deg, #FF9A56, #FF7A2E)"
+    isFixed="{{true}}"
+    bind:heightChange="onNavHeightChange"
+  />
+  <!-- 店铺选择栏 -->
+  <view class="shop-selector-bar" wx:if="{{shopList.length > 0}}">
+    <text class="shop-selector-label">当前店铺：</text>
+    <picker 
+      class="shop-picker" 
+      mode="selector" 
+      range="{{shopList}}" 
+      range-key="name"
+      value="{{selectedShopIndex}}" 
+      bindchange="onShopChange"
+    >
+      <view class="shop-picker-value">
+        {{selectedShopIndex >= 0 ? shopList[selectedShopIndex].name : '请选择店铺'}}
+        <text class="picker-arrow">▼</text>
+      </view>
+    </picker>
+  </view>
+
+  <!-- 无店铺提示 -->
+  <view class="no-shop-wrap" wx:if="{{shopList.length === 0 && !loading}}">
+    <empty-state text="暂无店铺，请先创建店铺" icon="/images/shop-placeholder.png" />
+    <view class="empty-btn" bindtap="goToShopManage">
+      <text class="empty-btn-text">+ 创建店铺</text>
+    </view>
+  </view>
+
+  <!-- 有店铺但无分类数据时的显示（只显示空状态，不显示左上角的新增按钮） -->
+  <view wx:elif="{{shopList.length > 0 && categories.length === 0 && !loading}}" class="empty-category-wrap">
+    <empty-state text="暂无饮品分类" icon="/images/icon-category.png" />
+    <!-- 注意：这里没有左上角的新增按钮，只显示空状态 -->
+  </view>
+
+  <!-- 分类列表（有分类数据时显示） -->
+  <view class="category-list" wx:elif="{{shopList.length > 0 && categories.length > 0}}">
+    <!-- 加载中 -->
+    <view class="loading-wrap" wx:if="{{loading}}">
+      <view class="loading-dots">
+        <view class="loading-dot"></view>
+        <view class="loading-dot"></view>
+        <view class="loading-dot"></view>
+      </view>
+    </view>
+
+    <!-- 分类列表 -->
+    <view class="category-list-content" wx:else>
+      <view class="category-card fade-in" wx:for="{{categories}}" wx:key="_id">
+        <!-- 卡片主内容（点击跳转饮品管理） -->
+        <view class="card-main" bindtap="goDrinkManage" data-id="{{item._id}}" data-name="{{item.name}}">
+          <view class="card-left">
+            <view class="category-icon-wrap">
+              <text class="category-emoji">🍵</text>
+            </view>
+            <view class="card-info">
+              <view class="card-info-row">
+                <text class="category-name">{{item.name}}</text>
+                <text class="category-sort">排序: {{item.sort}}</text>
+              </view>
+              <text class="category-meta">
+                <text class="drink-count">{{item.drinkCount}}个饮品</text>
+                <text class="meta-dot">·</text>
+                <text>创建于 {{item.createTimeText}}</text>
+              </text>
+            </view>
+          </view>
+          <text class="card-arrow">›</text>
+        </view>
+        
+        <!-- 按钮区域（单独一行） -->
+        <view class="card-actions">
+          <view class="action-btn action-btn-drink" catchtap="goDrinkManage" data-id="{{item._id}}" data-name="{{item.name}}">
+            <text class="action-icon">🥤</text>
+            <text>饮品管理</text>
+          </view>
+          <view class="action-btn" catchtap="onEdit" data-id="{{item._id}}" data-index="{{index}}">
+            <text class="action-icon">✎</text>
+            <text>编辑</text>
+          </view>
+          <view class="action-btn action-btn-danger" catchtap="onDelete" data-id="{{item._id}}" data-index="{{index}}">
+            <text class="action-icon">✕</text>
+            <text>删除</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部新增按钮（仅当有店铺时显示） -->
+  <view class="bottom-bar" wx:if="{{shopList.length > 0 && !loading}}">
+    <view class="add-btn" bindtap="onAdd">
+      <text>+ 新增分类</text>
+    </view>
+  </view>
+
+  <!-- 编辑弹窗（增加店铺选择） -->
+  <view class="modal-mask" wx:if="{{showEditModal}}" bindtap="closeModal">
+    <view class="modal-panel slide-up" catchtap="preventTap">
+      <view class="modal-header">
+        <text class="modal-title">{{editId ? '编辑分类' : '新增分类'}}</text>
+        <text class="modal-close" bindtap="closeModal">✕</text>
+      </view>
+      <scroll-view scroll-y class="modal-scroll">
+        <view class="modal-body">
+          <!-- 店铺选择（新增时显示） -->
+          <view class="form-item" wx:if="{{!editId}}">
+            <text class="form-label required">选择店铺</text>
+            <picker 
+              class="form-picker" 
+              mode="selector" 
+              range="{{shopList}}" 
+              range-key="name"
+              value="{{selectedShopIndex}}" 
+              bindchange="onShopChange"
+            >
+              <view class="picker-value {{selectedShopIndex >= 0 ? 'active' : ''}}">
+                {{selectedShopIndex >= 0 ? shopList[selectedShopIndex].name : '请选择店铺'}}
+              </view>
+              <text class="picker-arrow">›</text>
+            </picker>
+          </view>
+          
+          <!-- 编辑时显示店铺名称（不可修改） -->
+          <view class="form-item" wx:if="{{editId && editShopName}}">
+            <text class="form-label">所属店铺</text>
+            <view class="form-display">{{editShopName}}</view>
+          </view>
+          
+          <view class="form-item">
+            <text class="form-label required">分类名称</text>
+            <input 
+              class="form-input" 
+              placeholder="请输入分类名称" 
+              value="{{editName}}" 
+              bindinput="onNameInput" 
+              maxlength="20" 
+              focus="{{showEditModal}}"
+            />
+          </view>
+          
+          <!-- 排序选项 -->
+          <view class="form-item form-item-last">
+            <text class="form-label">排序（数字越小越靠前）</text>
+            <input 
+              class="form-input sort-input" 
+              type="digit" 
+              placeholder="请输入排序号" 
+              value="{{editSort}}" 
+              bindinput="onSortInput" 
+              confirm-type="done"
+            />
+          </view>
+        </view>
+      </scroll-view>
+      <view class="modal-footer">
+        <view class="modal-btn cancel" bindtap="closeModal">取消</view>
+        <view class="modal-btn confirm" bindtap="onSave">保存</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="page-bottom-space"></view>
+</view>

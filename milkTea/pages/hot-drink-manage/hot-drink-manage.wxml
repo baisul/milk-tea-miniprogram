@@ -1,0 +1,176 @@
+<!--pages/hot-drink-manage/hot-drink-manage.wxml - 热门饮品维护页-->
+<view class="hot-drink-page">
+  <!-- 顶部导航栏 -->
+  <nav-bar 
+    title="热门饮品维护页"
+    showBack="{{true}}"
+    titleColor="#FFFFFF"
+    backgroundColor="linear-gradient(135deg, #FF9A56, #FF7A2E)"
+    isFixed="{{true}}"
+    bind:heightChange="onNavHeightChange"
+  />
+  <!-- 提示说明 -->
+  <view class="tip-section">
+    <text class="tip-text">首页热门推荐将显示前20条饮品，排序值大越靠前</text>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-wrap" wx:if="{{loading}}">
+    <view class="loading-dots">
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <empty-state wx:elif="{{hotDrinks.length === 0}}" text="暂无热门饮品" />
+
+  <!-- 热门饮品列表 -->
+  <view class="hot-list" wx:else>
+    <view class="hot-card fade-in" wx:for="{{hotDrinks}}" wx:key="_id">
+      <view class="hot-main">
+        <view class="hot-rank">{{index + 1}}</view>
+        <image class="hot-image" src="{{item.drinkImage}}" mode="aspectFill" />
+        <view class="hot-info">
+          <text class="hot-name">{{item.drink.name || '未知饮品'}}</text>
+          <text class="hot-price">¥{{item.drink.price || '0'}}</text>
+          <view class="hot-meta">
+            <text class="hot-sort-label">排序值：</text>
+            <text class="hot-sort">{{item.sort}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="hot-actions">
+        <view class="action-btn" catchtap="onMoveUp" data-index="{{index}}" wx:if="{{index > 0}}">
+          <text class="action-icon">↑</text>
+          <text>上移</text>
+        </view>
+        <view class="action-btn" catchtap="onMoveDown" data-index="{{index}}" wx:if="{{index < hotDrinks.length - 1}}">
+          <text class="action-icon">↓</text>
+          <text>下移</text>
+        </view>
+        <view class="action-btn" catchtap="onEdit" data-index="{{index}}">
+          <text class="action-icon">✎</text>
+          <text>编辑</text>
+        </view>
+        <view class="action-btn action-btn-danger" catchtap="onDelete" data-index="{{index}}">
+          <text class="action-icon">✕</text>
+          <text>删除</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部新增按钮 -->
+  <view class="bottom-bar" wx:if="{{hotDrinks.length > 0}}">
+    <view class="add-btn" bindtap="onAdd">
+      <text>+ 新增热门饮品</text>
+    </view>
+  </view>
+
+  <!-- 底部新增按钮（空状态） -->
+  <view class="bottom-bar" wx:if="{{hotDrinks.length === 0 && !loading}}">
+    <view class="add-btn" bindtap="onAdd">
+      <text>+ 新增热门饮品</text>
+    </view>
+  </view>
+
+  <!-- 新增/编辑弹窗 -->
+  <view class="modal-mask" wx:if="{{showAddModal}}" bindtap="closeModal">
+    <view class="modal-panel slide-up" catchtap>
+      <view class="modal-header">
+        <text class="modal-title">{{editId ? '编辑热门饮品' : '新增热门饮品'}}</text>
+        <text class="modal-close" bindtap="closeModal">✕</text>
+      </view>
+
+      <view class="modal-body">
+        <!-- 分类选择 -->
+        <view class="form-item">
+          <text class="form-label">选择分类</text>
+          <view class="form-picker {{selectedCategory ? 'picker-active' : 'picker-placeholder'}}" bindtap="showCategorySelector" wx:if="{{!editId}}">
+            <text>{{selectedCategoryName}}</text>
+            <text class="picker-arrow">▾</text>
+          </view>
+          <view class="form-picker picker-active" wx:else>
+            <text>{{selectedCategoryName}}</text>
+          </view>
+        </view>
+
+        <!-- 饮品选择 -->
+        <view class="form-item">
+          <text class="form-label">选择饮品</text>
+          <view class="form-picker {{selectedDrink ? 'picker-active' : 'picker-placeholder'}}" bindtap="showDrinkSelector" wx:if="{{!editId}}">
+            <text>{{selectedDrinkName}}</text>
+            <text class="picker-arrow">▾</text>
+          </view>
+          <view class="form-picker picker-active" wx:else>
+            <text>{{selectedDrinkName}}</text>
+          </view>
+        </view>
+
+        <!-- 排序输入 -->
+        <view class="form-item">
+          <text class="form-label">排序值</text>
+          <view class="form-input-wrap">
+            <input class="form-input" type="number" placeholder="数值越大越靠前" value="{{editSort}}" bindinput="onSortInput" />
+          </view>
+          <text class="form-hint">优先显示排序值大的饮品</text>
+        </view>
+      </view>
+
+      <view class="modal-footer">
+        <view class="modal-btn modal-btn-cancel" bindtap="closeModal">取消</view>
+        <view class="modal-btn modal-btn-confirm" bindtap="onSave">保存</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 分类选择弹窗 -->
+  <view class="picker-mask" wx:if="{{showCategoryPicker}}" bindtap="closeCategoryPicker">
+    <view class="picker-panel slide-up" catchtap>
+      <view class="picker-header">
+        <text class="picker-title">选择分类</text>
+        <text class="picker-close" bindtap="closeCategoryPicker">✕</text>
+      </view>
+      <scroll-view class="picker-list" scroll-y>
+        <view class="picker-empty" wx:if="{{categories.length === 0}}">
+          <text>暂无分类</text>
+        </view>
+        <view class="picker-item {{item._id === selectedCategory ? 'active' : ''}}" wx:for="{{categories}}" wx:key="_id" data-id="{{item._id}}" data-name="{{item.name}}" bindtap="selectCategory">
+          <text class="picker-item-name">{{item.name}}</text>
+          <text class="picker-check" wx:if="{{item._id === selectedCategory}}">✓</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <!-- 饮品选择弹窗 -->
+  <view class="picker-mask" wx:if="{{showDrinkPicker}}" bindtap="closeDrinkPicker">
+    <view class="picker-panel slide-up" catchtap>
+      <view class="picker-header">
+        <text class="picker-title">选择饮品</text>
+        <text class="picker-close" bindtap="closeDrinkPicker">✕</text>
+      </view>
+
+      <!-- 搜索栏 -->
+      <view class="picker-search">
+        <input class="picker-search-input" placeholder="搜索饮品名称" value="{{keyword}}" bindinput="onSearchInput" />
+        <text class="picker-search-icon">🔍</text>
+      </view>
+
+      <scroll-view class="picker-list" scroll-y>
+        <view class="picker-empty" wx:if="{{filteredDrinks.length === 0}}">
+          <text>{{keyword ? '未找到匹配饮品' : '请先选择分类'}}</text>
+        </view>
+        <view class="picker-item {{item._id === selectedDrink ? 'active' : ''}}" wx:for="{{filteredDrinks}}" wx:key="_id" data-id="{{item._id}}" data-name="{{item.name}}" bindtap="selectDrink">
+          <text class="picker-item-name">{{item.name}}</text>
+          <text class="picker-item-price">¥{{item.price}}</text>
+          <text class="picker-check" wx:if="{{item._id === selectedDrink}}">✓</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <view class="page-bottom-space"></view>
+</view>

@@ -1,0 +1,156 @@
+<!--pages/checkout/checkout.wxml - 下单结算页-->
+<view class="checkout-page">
+  <!-- 顶部导航栏 -->
+  <nav-bar 
+    title="" 
+    showBack="{{true}}"
+    backgroundColor="#F7F8FA"
+  />
+
+  <!-- 🆕 外卖/到店切换选项 -->
+  <view class="section-card order-type-selector">
+    <view class="type-switch">
+      <text class="type-item {{orderType === 'delivery' ? 'active' : ''}}" data-type="delivery" bindtap="switchOrderType">外卖</text>
+      <text class="type-divider">|</text>
+      <text class="type-item {{orderType === 'dine-in' ? 'active' : ''}}" data-type="dine-in" bindtap="switchOrderType">到店</text>
+    </view>
+  </view>
+
+  <!-- 店铺信息（去掉配送方式标签） -->
+  <view class="section-card shop-info">
+    <text class="shop-icon">🏪</text>
+    <view class="shop-detail">
+      <text class="shop-name">{{shopName}}</text>
+    </view>
+  </view>
+
+  <view class="section-card">
+    <text class="section-title">商品清单</text>
+    <view class="order-items">
+      <view class="order-item" wx:for="{{cart}}" wx:key="index">
+        <image class="item-img" src="{{item.image || '/images/drink-placeholder.png'}}" mode="aspectFill" />
+        <view class="item-detail">
+          <text class="item-name">{{item.name}}</text>
+          <text class="item-spec">{{item.cupSize === 'large' ? '大杯' : item.cupSize === 'medium' ? '中杯' : '小杯'}} / {{item.temperature === 'standard_ice' ? '标准冰' : item.temperature === 'less_ice' ? '少冰' : item.temperature === 'no_ice' ? '去冰' : '热'}} / {{item.sweetness === 'standard' ? '标准糖' : item.sweetness === 'less' ? '少糖' : item.sweetness === 'half' ? '半糖' : item.sweetness === 'light' ? '微糖' : '不额外加糖'}}</text>
+        </view>
+        <view class="item-right">
+          <text class="item-price">¥{{item.price}}</text>
+          <text class="item-qty">x{{item.quantity}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="total-row">
+      <text class="total-label">商品总计</text>
+      <text class="total-price">¥{{cartTotal}}</text>
+    </view>
+        <!-- 🆕 配送费（仅外卖模式显示） -->
+        <view class="delivery-row" wx:if="{{orderType === 'delivery'}}">
+      <text class="delivery-label">配送费</text>
+      <text class="delivery-price">¥{{deliveryFee}}</text>
+    </view>
+  </view>
+
+  <!-- 门店自取时显示联系人字段（必填） -->
+  <view class="section-card" wx:if="{{orderType === 'dine-in'}}">
+    <view class="section-title-wrap">
+      <text class="section-title">联系人</text>
+      <text class="required-star">*</text>
+    </view>
+    <input 
+      class="form-input" 
+      placeholder="请输入联系人姓名" 
+      value="{{contactPerson}}" 
+      bindinput="onContactPersonInput" 
+      maxlength="20"
+    />
+  </view>
+
+  <view class="section-card" wx:if="{{orderType === 'dine-in'}}">
+    <view class="section-title-wrap">
+      <text class="section-title">联系电话</text>
+      <text class="required-star">*</text>
+    </view>
+    <input 
+      class="form-input" 
+      type="number" 
+      maxlength="11" 
+      placeholder="请输入手机号码" 
+      value="{{contactPhone}}" 
+      bindinput="onPhoneInput" 
+    />
+  </view>
+
+  <view class="section-card">
+    <text class="section-title">备注</text>
+    <textarea class="form-textarea" placeholder="有什么想对我们说的？（选填）" value="{{remark}}" bindinput="onRemarkInput" maxlength="200" auto-height />
+  </view>
+
+  <view class="section-card" wx:if="{{orderType === 'dine-in'}}">
+    <text class="section-title">取餐时间</text>
+    <picker mode="selector" range="{{pickupTimeOptions}}" value="{{pickupTimeIndex}}" bindchange="onPickupTimeChange">
+      <view class="form-picker">
+        <text class="picker-value">{{pickupTime}}</text>
+        <text class="picker-arrow">›</text>
+      </view>
+    </picker>
+  </view>
+
+  <view class="section-card" wx:if="{{orderType === 'delivery'}}">
+    <text class="section-title">送达时间</text>
+    <picker mode="selector" range="{{deliveryTimeOptions}}" value="{{deliveryTimeIndex}}" bindchange="onDeliveryTimeChange">
+      <view class="form-picker">
+        <text class="picker-value">{{deliveryTime}}</text>
+        <text class="picker-arrow">›</text>
+      </view>
+    </picker>
+  </view>
+
+  <view class="section-card address-card" wx:if="{{orderType === 'delivery'}}" bindtap="showAddressList">
+    <text class="section-title">收货地址</text>
+    <view class="address-info" wx:if="{{selectedAddress}}">
+      <view class="address-top">
+        <text class="address-name">{{selectedAddress.name}}</text>
+        <text class="address-gender">{{selectedAddress.gender === 'male' ? '先生' : '女士'}}</text>
+        <text class="address-phone">{{selectedAddress.phone}}</text>
+      </view>
+      <text class="address-detail">{{selectedAddress.province}}{{selectedAddress.city}}{{selectedAddress.district}}{{selectedAddress.detail}}{{selectedAddress.roomNumber}}</text>
+      <text class="address-tag" wx:if="{{selectedAddress.tag}}">{{selectedAddress.tag === 'home' ? '家' : selectedAddress.tag === 'company' ? '公司' : selectedAddress.tag === 'school' ? '学校' : '其他'}}</text>
+    </view>
+    <view class="address-empty" wx:else>
+      <text class="address-add-text">+ 点击选择收货地址</text>
+    </view>
+    <text class="address-arrow">›</text>
+  </view>
+
+  <view class="submit-bar">
+    <view class="submit-info">
+      <text class="submit-label">应付：</text>
+      <text class="submit-price">¥{{cartTotal}}</text>
+    </view>
+    <view class="submit-btn {{submitting ? 'disabled' : ''}}" bindtap="submitOrder">{{submitting ? '提交中...' : '提交订单'}}</view>
+  </view>
+
+  <view class="address-picker-mask" wx:if="{{showAddressPicker}}" bindtap="closeAddressPicker">
+    <view class="address-picker-panel slide-up" catchtap>
+      <view class="address-picker-header">
+        <text class="picker-title">选择收货地址</text>
+        <view class="header-right">
+          <text class="add-new-btn" bindtap="addAddress">新增地址</text>
+          <text class="close-btn" bindtap="closeAddressPicker">✕</text>
+        </view>
+      </view>
+      <scroll-view class="address-picker-list" scroll-y>
+        <view class="address-pick-item {{selectedAddress && selectedAddress._id === item._id ? 'active' : ''}}" wx:for="{{addressList}}" wx:key="_id" data-index="{{index}}" bindtap="selectAddress">
+          <view class="pick-item-top">
+            <text class="pick-name">{{item.name}}</text>
+            <text class="pick-gender">{{item.gender === 'male' ? '先生' : '女士'}}</text>
+            <text class="pick-phone">{{item.phone}}</text>
+          </view>
+          <text class="pick-address">{{item.province}}{{item.city}}{{item.district}}{{item.detail}}{{item.roomNumber}}</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <view style="height: 160rpx;"></view>
+</view>

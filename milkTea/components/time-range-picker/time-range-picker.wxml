@@ -1,0 +1,22 @@
+<!-- components/time-range-picker/time-range-picker.wxml -->
+<view class="time-range-picker">
+  <view class="label-text">
+    <text class="required-star">*</text>
+  <text>营业时间（半小时步进）</text>
+  </view>
+
+  <view class="row">
+    <text class="row-label">开始</text>
+    <picker class="row-picker" mode="selector" range="{{timeOptions}}" value="{{startIndex}}" bindchange="onStartChange">
+      <view class="row-value">{{timeOptions[startIndex]}}</view>
+    </picker>
+  </view>
+
+  <view class="row">
+    <text class="row-label">结束</text>
+    <picker class="row-picker" mode="selector" range="{{endTimeOptions}}" value="{{endIndex}}" bindchange="onEndChange">
+      <view class="row-value">{{endTimeOptions[endIndex]}}</view>
+    </picker>
+  </view>
+</view>
+

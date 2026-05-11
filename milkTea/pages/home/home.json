@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+    "drink-card": "/components/drink-card/drink-card",
+    "empty-state": "/components/empty-state/empty-state",
+    "ai-chat-popup": "/components/ai-chat-popup/ai-chat-popup",
+    "nav-bar": "/components/nav-bar/nav-bar"
+  },
+  "navigationBarTitleText": "奶茶点单",
+  "enablePullDownRefresh": true,
+  "navigationStyle": "custom"
+}

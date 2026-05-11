@@ -1,0 +1,52 @@
+{
+  "rules": [
+    {
+      "collectionName": "shops",
+      "description": "店铺集合 - 所有人可读，仅创建者可写",
+      "rule": {
+        "read": true,
+        "write": "doc.userId == auth.openid"
+      }
+    },
+    {
+      "collectionName": "categories",
+      "description": "饮品分类集合 - 所有人可读，仅创建者可写",
+      "rule": {
+        "read": true,
+        "write": "doc.userId == auth.openid"
+      }
+    },
+    {
+      "collectionName": "drinks",
+      "description": "饮品集合 - 所有人可读，仅创建者可写",
+      "rule": {
+        "read": true,
+        "write": "doc.userId == auth.openid"
+      }
+    },
+    {
+      "collectionName": "orders",
+      "description": "订单集合 - 仅创建者可读写",
+      "rule": {
+        "read": "doc.userId == auth.openid",
+        "write": "doc.userId == auth.openid"
+      }
+    },
+    {
+      "collectionName": "addresses",
+      "description": "收货地址集合 - 仅创建者可读写",
+      "rule": {
+        "read": "doc.userId == auth.openid",
+        "write": "doc.userId == auth.openid"
+      }
+    },
+    {
+      "collectionName": "favorites",
+      "description": "收藏集合 - 仅创建者可读写",
+      "rule": {
+        "read": "doc.userId == auth.openid",
+        "write": "doc.userId == auth.openid"
+      }
+    }
+  ]
+}

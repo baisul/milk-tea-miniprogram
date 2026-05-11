@@ -1,0 +1,215 @@
+/* pages/order-success/order-success.wxss */
+.success-page {
+  min-height: 100vh;
+  background: #F7F8FA;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80rpx 32rpx 60rpx;
+  box-sizing: border-box;
+}
+
+/* 成功图标区域 */
+.success-icon-wrap { 
+  margin-bottom: 32rpx; 
+}
+.success-circle { 
+  width: 120rpx; 
+  height: 120rpx; 
+  background: linear-gradient(135deg, #52C41A, #73D13D); 
+  border-radius: 50%; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  box-shadow: 0 8rpx 24rpx rgba(82,196,26,0.25); 
+}
+.success-check { 
+  font-size: 56rpx; 
+  color: #fff; 
+  font-weight: 700; 
+}
+
+/* 标题区域 */
+.success-title { 
+  font-size: 36rpx; 
+  font-weight: 700; 
+  color: #333; 
+  margin-bottom: 12rpx; 
+}
+.success-desc { 
+  font-size: 26rpx; 
+  color: #999; 
+  margin-bottom: 32rpx; 
+}
+
+/* 订单信息卡片 */
+.order-info-card { 
+  width: 100%; 
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 32rpx 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
+}
+.info-row { 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  padding: 16rpx 0; 
+}
+.info-row:first-child {
+  padding-top: 0;
+}
+.info-row:last-child { 
+  padding-bottom: 0;
+}
+.info-label { 
+  font-size: 28rpx; 
+  color: #666; 
+}
+.info-value { 
+  font-size: 28rpx; 
+  color: #333; 
+  font-weight: 500; 
+}
+.info-value.price { 
+  color: #FF4D4F; 
+  font-weight: 700; 
+  font-size: 32rpx; 
+}
+.info-value.status { 
+  color: #52C41A; 
+}
+
+/* 新增：详细信息卡片 */
+.detail-info-card {
+  width: 100%;
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 32rpx 28rpx;
+  margin-bottom: 48rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
+}
+
+.detail-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  padding-bottom: 20rpx;
+  margin-bottom: 16rpx;
+  border-bottom: 1rpx solid #F0F0F0;
+}
+
+.detail-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 16rpx 0;
+}
+
+.detail-label {
+  width: 140rpx;
+  font-size: 28rpx;
+  color: #999;
+  flex-shrink: 0;
+}
+
+.detail-value {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.4;
+  word-break: break-all;
+}
+
+/* 按钮区域 */
+.action-section { 
+  width: 100%; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 主要按钮 */
+.btn-primary {
+  width: 100%;
+  background: linear-gradient(135deg, #FF9A56, #FF7A2E);
+  border-radius: 48rpx;
+  padding: 24rpx 0;
+  text-align: center;
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #FFFFFF;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(255, 122, 46, 0.2);
+  transition: all 0.2s;
+}
+.btn-primary:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+/* 次要按钮 */
+.btn-outline {
+  width: 100%;
+  background: transparent;
+  border: 2rpx solid #FF7A2E;
+  border-radius: 48rpx;
+  padding: 22rpx 0;
+  text-align: center;
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #FF7A2E;
+  margin-bottom: 20rpx;
+  transition: all 0.2s;
+}
+.btn-outline:active {
+  transform: scale(0.98);
+  background: rgba(255, 122, 46, 0.05);
+}
+
+/* 首页链接 */
+.home-link { 
+  text-align: center; 
+  font-size: 28rpx; 
+  color: #999; 
+  margin-top: 16rpx; 
+  padding: 16rpx 24rpx; 
+  display: inline-block;
+  transition: all 0.2s;
+}
+.home-link:active {
+  color: #666;
+}
+
+/* 动画 */
+.scale-in { 
+  animation: scaleIn 0.3s ease-out both; 
+}
+.fade-in { 
+  animation: fadeIn 0.4s ease-out both; 
+  animation-delay: 0.2s; 
+}
+
+@keyframes scaleIn { 
+  from { 
+    transform: scale(0.5); 
+    opacity: 0; 
+  } 
+  to { 
+    transform: scale(1); 
+    opacity: 1; 
+  } 
+}
+
+@keyframes fadeIn { 
+  from { 
+    opacity: 0; 
+    transform: translateY(20rpx); 
+  } 
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  } 
+}

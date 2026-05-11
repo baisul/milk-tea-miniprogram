@@ -1,0 +1,370 @@
+/* pages/order/order.wxss - 点单Tab样式 */
+
+.order-page {
+  min-height: 100vh;
+  background: var(--bg-color, #F7F8FA);
+  position: relative;
+}
+
+/* 固定头部区域 */
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: #FFFFFF;
+}
+
+/* ============ Tab栏 ============ */
+.tab-header {
+  display: flex;
+  position: relative;
+  background: #FFFFFF;
+  padding: 0 32rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+}
+
+
+.tab-item {
+  flex: 1;
+  height: 96rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  color: #999999;
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s;
+}
+
+.tab-item.active {
+  color: #FF7A2E;
+  font-weight: 600;
+}
+
+.tab-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  height: 6rpx;
+  background: #FF7A2E;
+  border-radius: 3rpx;
+  transition: transform 0.3s;
+}
+/* ============ 地图 ============ */
+.map-section {
+  width: 100%;
+}
+
+.map {
+  width: 100%;
+  height: 360rpx;
+}
+
+/* ============ 搜索栏 ============ */
+/* ============ 搜索栏 ============ */
+.search-section {
+  padding: 20rpx 24rpx;
+  background: #FFFFFF;
+  border-bottom: 2rpx solid #F7F8FA;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.province-btn {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 16rpx;
+  background: #F7F8FA;
+  border-radius: 32rpx;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.province-text {
+  font-size: 24rpx;
+  color: #333333;
+  max-width: 80rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.province-arrow {
+  font-size: 18rpx;
+  color: #999999;
+  margin-left: 4rpx;
+}
+
+.search-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: #F7F8FA;
+  border-radius: 32rpx;
+  padding: 0 20rpx;
+  height: 68rpx;
+}
+
+.search-icon {
+  font-size: 26rpx;
+  margin-right: 8rpx;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 26rpx;
+  color: #333333;
+}
+
+.search-clear {
+  font-size: 24rpx;
+  color: #CCCCCC;
+  padding: 8rpx;
+}
+
+.search-btn {
+  padding: 16rpx 28rpx;
+  background: linear-gradient(135deg, #FF9A56, #FF7A2E);
+  border-radius: 32rpx;
+  color: #FFFFFF;
+  font-size: 26rpx;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.search-btn:active { opacity: 0.85; }
+
+/* ============ 可滚动内容区域 ============ */
+/* 可滚动内容区域 */
+.scroll-content {
+  position: fixed;
+  left: 0;
+  right: 0;
+  background: #F7F8FA;
+  /* top 和 height 通过动态样式设置 */
+}
+
+/* ============ 加载动画 ============ */
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 80rpx 0;
+}
+
+.loading-dots {
+  display: flex;
+  gap: 16rpx;
+}
+
+.loading-dot {
+  width: 16rpx;
+  height: 16rpx;
+  background: #FF7A2E;
+  border-radius: 50%;
+  animation: bounce 1.4s ease-in-out infinite both;
+}
+
+.loading-dot:nth-child(1) { animation-delay: -0.32s; }
+.loading-dot:nth-child(2) { animation-delay: -0.16s; }
+.loading-dot:nth-child(3) { animation-delay: 0s; }
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0.3); opacity: 0.3; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* ============ 店铺列表 ============ */
+.shop-list {
+  padding: 16rpx 24rpx;
+}
+
+.shop-card {
+  display: flex;
+  align-items: center;
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s;
+}
+
+.shop-card:active {
+  transform: scale(0.98);
+}
+
+.shop-image {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 16rpx;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.shop-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.shop-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8rpx;
+}
+
+.shop-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333333;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shop-distance {
+  font-size: 24rpx;
+  color: #FF7A2E;
+  font-weight: 500;
+  flex-shrink: 0;
+  margin-left: 12rpx;
+}
+
+.shop-address {
+  font-size: 24rpx;
+  color: #999999;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 8rpx;
+}
+
+.shop-tags {
+  display: flex;
+  gap: 8rpx;
+}
+
+.shop-tag {
+  font-size: 20rpx;
+  color: #FF7A2E;
+  background: #FFF5ED;
+  padding: 4rpx 12rpx;
+  border-radius: 6rpx;
+}
+
+.shop-action {
+  flex-shrink: 0;
+  padding: 16rpx;
+  margin-left: 8rpx;
+}
+
+.fav-icon {
+  font-size: 40rpx;
+}
+
+/* ============ 省份选择弹窗 ============ */
+.picker-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+}
+
+.picker-panel {
+  width: 100%;
+  background: #FFFFFF;
+  border-radius: 24rpx 24rpx 0 0;
+  max-height: 70vh;
+}
+
+.picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32rpx;
+  border-bottom: 1rpx solid #EEEEEE;
+}
+
+.picker-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333333;
+}
+
+.picker-cancel {
+  font-size: 28rpx;
+  color: #999999;
+}
+
+.province-list {
+  height: 50vh;
+  padding: 16rpx 32rpx;
+}
+
+.province-item {
+  padding: 24rpx 0;
+  font-size: 28rpx;
+  color: #666666;
+  border-bottom: 1rpx solid #F7F8FA;
+  text-align: center;
+}
+
+.province-item.active {
+  color: #FF7A2E;
+  font-weight: 600;
+}
+
+/* ============ 动画 ============ */
+.fade-in {
+  animation: fadeIn 0.3s ease-out both;
+}
+
+.fade-in:nth-child(2) { animation-delay: 0.05s; }
+.fade-in:nth-child(3) { animation-delay: 0.1s; }
+.fade-in:nth-child(4) { animation-delay: 0.15s; }
+.fade-in:nth-child(5) { animation-delay: 0.2s; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.page-bottom-space {
+  height: 80rpx;
+}
+.fav-icon {
+  font-size: 40rpx;
+  transition: transform 0.2s;
+}
+
+.fav-icon:active {
+  transform: scale(1.1);
+}
+
+.fav-icon.favorited {
+  color: #ff4444;
+  text-shadow: 0 2rpx 4rpx rgba(255, 68, 68, 0.3);
+}

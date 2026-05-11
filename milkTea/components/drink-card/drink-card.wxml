@@ -1,0 +1,11 @@
+<view class="drink-card" bindtap="onAddTap">
+  <image class="drink-image" src="{{drink.image || '/images/drink-placeholder.png'}}" mode="aspectFill" />
+  <view class="drink-info">
+    <text class="drink-name">{{drink.name}}</text>
+    <text class="drink-desc">{{drink.description || ''}}</text>
+    <view class="drink-bottom flex-between">
+      <text class="drink-price">¥{{drink.price}}</text>
+      <view class="add-btn-small">+</view>
+    </view>
+  </view>
+</view>

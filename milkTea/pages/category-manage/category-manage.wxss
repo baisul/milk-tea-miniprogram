@@ -1,0 +1,787 @@
+/* pages/category-manage/category-manage.wxss */
+
+/* 分类卡片 */
+.category-card {
+  background: #fff;
+  border-radius: 24rpx;
+  margin: 20rpx 24rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+/* 卡片主内容（可点击区域） */
+.card-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 24rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.card-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 20rpx;
+}
+
+/* 分类图标 */
+.category-icon-wrap {
+  width: 80rpx;
+  height: 80rpx;
+  background: linear-gradient(135deg, #f8f9fa 0%, #f0f2f5 100%);
+  border-radius: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.category-emoji {
+  font-size: 44rpx;
+}
+
+/* 分类信息 */
+.card-info {
+  flex: 1;
+}
+
+.card-info-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.category-name {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.category-sort {
+  font-size: 24rpx;
+  color: #999;
+  background: #f5f5f5;
+  padding: 6rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+.category-meta {
+  font-size: 24rpx;
+  color: #999;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8rpx;
+}
+
+.shop-name {
+  color: #67c23a;
+}
+
+.drink-count {
+  color: #ff9800;
+}
+
+.meta-dot {
+  color: #ddd;
+}
+
+.card-arrow {
+  font-size: 36rpx;
+  color: #ccc;
+  margin-left: 16rpx;
+}
+
+/* 按钮区域（单独一行） */
+.card-actions {
+  display: flex;
+  padding: 20rpx 24rpx;
+  gap: 20rpx;
+  background: #fafafa;
+}
+
+/* 操作按钮通用样式 */
+.action-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  padding: 20rpx 0;
+  border-radius: 48rpx;
+  font-size: 26rpx;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: #fff;
+  color: #666;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+.action-btn:active {
+  transform: scale(0.96);
+  opacity: 0.8;
+}
+
+/* 饮品管理按钮（绿色） */
+.action-btn-drink {
+  background: linear-gradient(135deg, #67c23a 0%, #5daf34 100%);
+  color: #fff;
+}
+
+/* 编辑按钮（蓝色） */
+.action-btn {
+  background: #fff;
+  color: #666;
+  border: 1rpx solid #e5e5e5;
+}
+
+/* 删除按钮（红色） */
+.action-btn-danger {
+  background: #fff5f5;
+  color: #ff6b6b;
+  border: 1rpx solid #ffe0e0;
+}
+
+.action-icon {
+  font-size: 32rpx;
+}
+
+/* 底部按钮 */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20rpx 32rpx 40rpx;
+  background: #fff;
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.05);
+  z-index: 10;
+}
+
+.add-btn {
+  background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+  border-radius: 60rpx;
+  padding: 28rpx 0;
+  text-align: center;
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.add-btn:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+/* 页面底部留白 */
+.page-bottom-space {
+  height: 140rpx;
+}
+
+/* 弹窗样式 */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+}
+
+.modal-panel {
+  width: 100%;
+  background: #fff;
+  border-radius: 32rpx 32rpx 0 0;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.modal-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.modal-close {
+  font-size: 40rpx;
+  color: #999;
+  padding: 12rpx;
+}
+
+.modal-scroll {
+  flex: 1;
+  max-height: 60vh;
+}
+
+.modal-body {
+  padding: 24rpx 32rpx;
+}
+
+.form-item {
+  margin-bottom: 32rpx;
+}
+
+.form-label {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 16rpx;
+}
+
+.form-label.required::before {
+  content: '*';
+  color: #ff6b6b;
+  margin-right: 8rpx;
+}
+
+.form-input {
+  width: 100%;
+  padding: 24rpx;
+  background: #f8f8f8;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.form-picker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8f8f8;
+  border-radius: 16rpx;
+  padding: 24rpx;
+}
+
+.picker-value {
+  font-size: 28rpx;
+  color: #999;
+  flex: 1;
+}
+
+.picker-value.active {
+  color: #333;
+}
+
+.picker-arrow {
+  font-size: 32rpx;
+  color: #ccc;
+}
+
+.form-display {
+  background: #f5f5f5;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 24rpx;
+  padding: 24rpx 32rpx 40rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.modal-btn {
+  flex: 1;
+  text-align: center;
+  padding: 24rpx;
+  border-radius: 48rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+}
+
+.modal-btn.cancel {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.modal-btn.confirm {
+  background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+  color: #fff;
+}
+
+/* pages/category-manage/category-manage.wxss */
+
+/* 弹窗遮罩层 */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+}
+
+/* 弹窗面板 */
+.modal-panel {
+  width: 100%;
+  background: #fff;
+  border-radius: 32rpx 32rpx 0 0;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease;
+  max-height: 85vh;  /* 增加最大高度 */
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* 弹窗头部 */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  background: #fff;
+  border-radius: 32rpx 32rpx 0 0;
+  flex-shrink: 0;
+}
+
+.modal-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.modal-close {
+  font-size: 40rpx;
+  color: #999;
+  padding: 12rpx;
+}
+
+/* 滚动区域 */
+.modal-scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 20rpx;
+}
+
+/* 弹窗内容 */
+.modal-body {
+  padding: 24rpx 32rpx 40rpx;
+}
+
+/* 表单项 */
+.form-item {
+  margin-bottom: 32rpx;
+}
+
+/* 最后一个表单项（排序）减少底部间距 */
+.form-item-last {
+  margin-bottom: 16rpx;
+}
+
+.form-label {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 16rpx;
+}
+
+.form-label.required::before {
+  content: '*';
+  color: #ff6b6b;
+  margin-right: 8rpx;
+}
+
+/* 输入框 */
+.form-input {
+  width: 100%;
+  padding: 24rpx;
+  background: #f8f8f8;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+  border: 1rpx solid transparent;
+  transition: all 0.2s;
+}
+
+.form-input:focus {
+  border-color: #ff9800;
+  background: #fff;
+}
+
+/* 选择器 */
+.form-picker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8f8f8;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  transition: all 0.2s;
+}
+
+.form-picker:active {
+  background: #f0f0f0;
+}
+
+.picker-value {
+  font-size: 28rpx;
+  color: #999;
+  flex: 1;
+}
+
+.picker-value.active {
+  color: #333;
+}
+
+.picker-arrow {
+  font-size: 32rpx;
+  color: #ccc;
+}
+
+/* 只读显示 */
+.form-display {
+  background: #f5f5f5;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+
+/* 弹窗底部按钮 */
+.modal-footer {
+  display: flex;
+  gap: 24rpx;
+  padding: 24rpx 32rpx 32rpx;
+  border-top: 1rpx solid #f0f0f0;
+  background: #fff;
+  border-radius: 0 0 32rpx 32rpx;
+  flex-shrink: 0;
+}
+
+.modal-btn {
+  flex: 1;
+  text-align: center;
+  padding: 24rpx;
+  border-radius: 48rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.modal-btn:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+.modal-btn.cancel {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.modal-btn.confirm {
+  background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+  color: #fff;
+}
+
+/* 排序输入框特殊样式 */
+.sort-input {
+  text-align: left;
+  vertical-align: middle;
+  line-height: normal;
+}
+
+/* 针对数字输入框的优化 */
+input[type="number"],
+input[type="digit"] {
+  text-align: left;
+  vertical-align: middle;
+}
+
+/* 或者使用更精确的选择器 */
+.form-input.sort-input {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  line-height: 1.4;
+  padding: 24rpx;
+}
+
+/* 确保输入框内容垂直居中 */
+.form-input {
+  width: 100%;
+  padding: 24rpx;
+  background: #f8f8f8;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+  border: 1rpx solid transparent;
+  transition: all 0.2s;
+  line-height: 1.4;  /* 添加行高 */
+  height: auto;      /* 自动高度 */
+  min-height: 88rpx; /* 最小高度 */
+}
+
+/* 输入框聚焦时 */
+.form-input:focus {
+  border-color: #ff9800;
+  background: #fff;
+}
+
+/* 针对微信小程序 input 的 placeholder 样式 */
+.form-input::placeholder {
+  color: #ccc;
+  font-size: 28rpx;
+  line-height: 1.4;
+}
+
+/* 店铺选择栏 */
+.shop-selector-bar {
+  background: #FFFFFF;
+  padding: 20rpx 32rpx;
+  display: flex;
+  align-items: center;
+  border-bottom: 1rpx solid #F0F0F0;
+  margin-bottom: 16rpx;
+}
+
+.shop-selector-label {
+  font-size: 28rpx;
+  color: #666;
+  margin-right: 16rpx;
+}
+
+.shop-picker {
+  flex: 1;
+}
+
+.shop-picker-value {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16rpx 20rpx;
+  background: #F7F8FA;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.picker-arrow {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 无店铺提示 */
+.no-shop-wrap {
+  padding-top: 100rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 分类列表容器 */
+.category-list-content {
+  padding: 0 24rpx;
+}
+
+/* 分类卡片 */
+.category-card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  margin-bottom: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.card-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 24rpx;
+  border-bottom: 1rpx solid #F5F5F5;
+}
+
+.card-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 20rpx;
+}
+
+.category-icon-wrap {
+  width: 80rpx;
+  height: 80rpx;
+  background: linear-gradient(135deg, #F8F9FA 0%, #F0F2F5 100%);
+  border-radius: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.category-emoji {
+  font-size: 44rpx;
+}
+
+.card-info {
+  flex: 1;
+}
+
+.card-info-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.category-name {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.category-sort {
+  font-size: 24rpx;
+  color: #999;
+  background: #F5F5F5;
+  padding: 6rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+.category-meta {
+  font-size: 24rpx;
+  color: #999;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8rpx;
+}
+
+.drink-count {
+  color: #FF7A2E;
+}
+
+.meta-dot {
+  color: #DDD;
+}
+
+.card-arrow {
+  font-size: 36rpx;
+  color: #CCC;
+  margin-left: 16rpx;
+}
+
+/* 按钮区域 */
+.card-actions {
+  display: flex;
+  padding: 20rpx 24rpx;
+  gap: 20rpx;
+  background: #FAFAFA;
+}
+
+.action-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  padding: 20rpx 0;
+  border-radius: 48rpx;
+  font-size: 26rpx;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: #FFFFFF;
+  color: #666;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+.action-btn:active {
+  transform: scale(0.96);
+}
+
+.action-btn-drink {
+  background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+  color: #2E7D32;
+}
+
+.action-btn-danger {
+  background: #FFF5F5;
+  color: #FF6B6B;
+}
+
+.action-icon {
+  font-size: 32rpx;
+}
+
+/* 底部按钮 */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20rpx 32rpx 40rpx;
+  background: #FFFFFF;
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.05);
+  z-index: 10;
+}
+
+.add-btn {
+  background: linear-gradient(135deg, #FF9A56, #FF7A2E);
+  border-radius: 60rpx;
+  padding: 28rpx 0;
+  text-align: center;
+  color: #FFFFFF;
+  font-size: 30rpx;
+  font-weight: 500;
+}
+
+.add-btn:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+/* 页面底部留白 */
+.page-bottom-space {
+  height: 140rpx;
+}
+/* 空分类容器 */
+.empty-category-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 120rpx;
+  min-height: 60vh;
+}

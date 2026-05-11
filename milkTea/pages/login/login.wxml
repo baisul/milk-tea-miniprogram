@@ -1,0 +1,71 @@
+<!--pages/login/login.wxml - 授权注册页-->
+<view class="login-page">
+  <!-- 顶部装饰区 -->
+  <view class="header-section">
+    <view class="header-bg"></view>
+    <view class="header-wave"></view>
+    <view class="header-content">
+      <view class="logo-wrap">
+        <text class="logo-emoji">🧋</text>
+      </view>
+      <text class="header-title">欢迎注册</text>
+      <text class="header-desc">填写以下信息，开启奶茶之旅</text>
+    </view>
+  </view>
+
+  <!-- 表单卡片 -->
+  <view class="form-card">
+    <!-- 昵称 -->
+    <view class="form-item">
+      <view class="form-icon">
+        <text class="iconfont">👤</text>
+      </view>
+      <view class="form-input-wrap">
+        <input class="form-input" placeholder="请输入昵称" placeholder-style="color:#bbb" maxlength="20" value="{{nickname}}" bindinput="onNicknameInput" />
+      </view>
+    </view>
+
+    <!-- 分割线 -->
+    <view class="form-divider"></view>
+
+    <!-- 性别 -->
+    <view class="form-item">
+      <view class="form-icon">
+        <text class="iconfont">⚧</text>
+      </view>
+      <view class="form-input-wrap">
+        <picker class="form-picker" range="{{genderArray}}" value="{{genderIndex}}" bindchange="onGenderChange">
+          <text class="{{genderIndex >= 0 ? 'picker-active' : 'picker-placeholder'}}">
+            {{genderIndex >= 0 ? genderArray[genderIndex] : '请选择性别'}}
+          </text>
+          <text class="picker-arrow">›</text>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 分割线 -->
+    <view class="form-divider"></view>
+
+    <!-- 手机号 -->
+    <view class="form-item">
+      <view class="form-icon">
+        <text class="iconfont">📱</text>
+      </view>
+      <view class="form-input-wrap">
+        <input class="form-input" type="number" placeholder="请输入手机号" placeholder-style="color:#bbb" maxlength="11" value="{{phone}}" bindinput="onPhoneInput" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 注册按钮 -->
+  <view class="btn-section">
+    <button class="submit-btn {{submitting ? 'disabled' : ''}}" bindtap="onSubmit" disabled="{{submitting}}">
+      {{submitting ? '注册中...' : '立即注册'}}
+    </button>
+  </view>
+
+  <!-- 底部提示 -->
+  <view class="footer-tip">
+    <text class="tip-text">注册即表示同意相关服务条款</text>
+  </view>
+</view>

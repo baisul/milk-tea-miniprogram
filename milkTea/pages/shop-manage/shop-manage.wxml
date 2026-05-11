@@ -1,0 +1,202 @@
+<!-- pages/shop-manage/shop-manage.wxml - 店铺维护页 -->
+<view class="shop-manage-page">
+  <!-- 顶部导航栏 -->
+  <nav-bar 
+    title="店铺维护"
+    showBack="{{true}}"
+    titleColor="#FFFFFF"
+    backgroundColor="linear-gradient(135deg, #FF9A56, #FF7A2E)"
+    isFixed="{{true}}"
+    bind:heightChange="onNavHeightChange"
+  />
+  <!-- 加载中 -->
+  <view class="loading-wrap" wx:if="{{loading}}">
+    <view class="loading-dots">
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:elif="{{!loading && shops.length === 0}}">
+    <empty-state text="暂无店铺" icon="/images/shop-placeholder.png" />
+  </view>
+
+  <!-- 店铺列表 -->
+  <view wx:else class="shop-list">
+    <view class="shop-card fade-in" wx:for="{{shops}}" wx:key="_id">
+      <view class="shop-card-main">
+        <view class="shop-top-row">
+          <image class="shop-logo" src="{{item.logo || item.image || '/images/shop-placeholder.png'}}" mode="aspectFill" />
+          <view class="shop-main-info">
+            <text class="shop-name">{{item.name}}</text>
+            <text class="shop-code">店铺编号：{{item.shopCode || '-'}}</text>
+          </view>
+        </view>
+
+        <view class="shop-meta">
+          <text>状态：{{item.statusText}}</text>
+          <text class="meta-dot">·</text>
+          <text>排序：{{item.sort}}</text>
+        </view>
+        <text class="shop-address">{{item.fullAddress || ''}}</text>
+      </view>
+
+      <view class="shop-actions">
+        <view class="action-btn" catchtap="onEdit" data-index="{{index}}">
+          <text class="action-icon">✎</text>
+          <text>编辑</text>
+        </view>
+        <view class="action-btn action-btn-danger" catchtap="onDelete" data-index="{{index}}">
+          <text class="action-icon">✕</text>
+          <text>删除</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部新增按钮 -->
+  <view class="bottom-bar" wx:if="{{!loading}}">
+    <view class="add-btn" bindtap="onAdd">
+      <text>+ 新增店铺</text>
+    </view>
+  </view>
+
+  <!-- 新增/编辑弹窗 -->
+  <view class="modal-mask" wx:if="{{showEditModal}}" bindtap="closeModal">
+    <view class="modal-panel slide-up" catchtap="preventTap">
+      <view class="modal-header">
+        <text class="modal-title">{{editShopId ? '编辑店铺' : '新增店铺'}}</text>
+        <text class="modal-close" bindtap="closeModal">✕</text>
+      </view>
+
+      <scroll-view scroll-y class="modal-scroll">
+        <view class="modal-body">
+          <view class="form-item">
+            <view class="label-text">
+            <text class="required-star">*</text>
+            <text>店铺编号（唯一标识）</text>
+            </view>
+            <input class="form-input" placeholder="请输入店铺编号" value="{{form.shopCode}}" bindinput="onShopCodeInput" />
+          </view>
+
+          <view class="form-item">
+            <view class="label-text">
+            <text class="required-star">*</text>
+            <text>店铺名称</text>
+            </view>
+            <input class="form-input" placeholder="请输入店铺名称" value="{{form.name}}" bindinput="onNameInput" maxlength="50" />
+          </view>
+
+          <view class="form-item">
+            <view class="label-text">
+            <text class="required-star">*</text>
+            <text>店铺Logo图片</text>
+            </view>
+            <view class="image-upload" bindtap="chooseLogo">
+              <image class="upload-image" wx:if="{{form.logo}}" src="{{form.logo}}" mode="aspectFill" />
+              <view class="upload-placeholder" wx:else>
+                <text class="upload-icon">+</text>
+                <text class="upload-text">上传Logo</text>
+              </view>
+              <view class="upload-loading" wx:if="{{logoUploading}}">
+                <text>上传中...</text>
+              </view>
+            </view>
+          </view>
+
+          <view class="form-item">
+            <view class="label-text">
+            <text class="required-star">*</text>
+            <text>营业执照图</text>
+            </view>
+            <view class="image-upload" bindtap="chooseBusinessImage">
+              <image class="upload-image" wx:if="{{form.businessImage}}" src="{{form.businessImage}}" mode="aspectFill" />
+              <view class="upload-placeholder" wx:else>
+                <text class="upload-icon">+</text>
+                <text class="upload-text">上传营业执照</text>
+              </view>
+              <view class="upload-loading" wx:if="{{businessImageUploading}}">
+                <text>上传中...</text>
+              </view>
+            </view>
+          </view>
+
+          <view class="form-item">
+            <view class="label-text">
+            <text class="required-star">*</text>
+            <text>联系人</text>
+            </view>
+            <input class="form-input" placeholder="请输入联系人" value="{{form.contact}}" bindinput="onContactInput" />
+          </view>
+
+          <view class="form-item">
+            <view class="label-text">
+            <text class="required-star">*</text>
+            <text>联系电话</text>
+            </view>
+            <input class="form-input" placeholder="请输入联系电话" value="{{form.phone}}" bindinput="onPhoneInput" />
+          </view>
+
+         <!-- 使用位置选择组件 -->
+          <location-picker id="locationPicker"  initial-data="{{componentInitialData}}"bind:change="onLocationChange" />
+
+          <view class="form-item">
+            <time-range-picker value="{{form.businessHours}}" minMinutes="30" bindchange="onBusinessHoursChange" />
+          </view>
+
+          <view class="form-item">
+            <view class="label-text">
+            <text class="required-star">*</text>
+            <text>配送范围（米）</text>
+            </view>
+            <input class="form-input" type="number" placeholder="例如 5000" value="{{form.deliveryRangeMeters}}" bindinput="onDeliveryRangeInput" />
+          </view>
+
+          <view class="form-item">
+            <view class="label-text">
+            <text class="required-star">*</text>
+            <text>配送费（分）</text>
+            </view>
+            <input class="form-input" type="number" placeholder="例如 500" value="{{form.deliveryFeeCents}}" bindinput="onDeliveryFeeInput" />
+          </view>
+
+          <view class="form-item">
+            <view class="label-text">
+            <text class="required-star">*</text>
+            <text>起送金额（分）</text>
+            </view>
+            <input class="form-input" type="number" placeholder="例如 2000" value="{{form.minOrderCents}}" bindinput="onMinOrderInput" />
+          </view>
+
+          <view class="form-item">
+            <view class="label-text">
+            <text class="required-star">*</text>
+            <text>店铺状态</text>
+            </view>
+            <picker class="form-picker-full" range="{{statusLabels}}" value="{{editStatusIndex}}" bindchange="onStatusChange">
+          <view class="picker-content">
+          <text class="picker-value">{{statusLabels[editStatusIndex] || '请选择店铺状态'}}</text>
+          <text class="picker-arrow">›</text>
+          </view>
+          </picker>
+        </view>
+
+          <view class="form-item">
+            <text class="form-label">排序（值大排前，最大9999）</text>
+            <input class="form-input" type="number" placeholder="请输入排序" value="{{form.sort}}" bindinput="onSortInput" />
+          </view>
+        </view>
+      </scroll-view>
+
+      <view class="modal-footer">
+        <view class="modal-btn modal-btn-cancel" bindtap="closeModal">取消</view>
+        <view class="modal-btn modal-btn-confirm" bindtap="onSave">保存</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="page-bottom-space"></view>
+</view>
+

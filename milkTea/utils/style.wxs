@@ -1,0 +1,11 @@
+// utils/style.wxs
+var getSpecStyle = function(selectedList, currentValue) {
+  if (selectedList.indexOf(currentValue) >= 0) {
+    return 'background:#E8F5E9;color:#0f0f0f;border:1rpx solid #4CAF50;'
+  }
+  return 'background:#F5F5F5;color:#666;border:1rpx solid transparent;'
+}
+
+module.exports = {
+  getSpecStyle: getSpecStyle
+}

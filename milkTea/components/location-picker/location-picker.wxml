@@ -1,0 +1,111 @@
+<view class="location-picker">
+  <!-- 模式切换标签 -->
+  <view class="mode-tabs">
+    <view 
+      class="mode-tab {{currentMode === 'map' ? 'active' : ''}}" 
+      bindtap="switchMode" 
+      data-mode="map"
+    >
+      📍 地图选址
+    </view>
+    <view 
+      class="mode-tab {{currentMode === 'manual' ? 'active' : ''}}" 
+      bindtap="switchMode" 
+      data-mode="manual"
+    >
+      ✍️ 地区选址
+    </view>
+  </view>
+
+  <!-- 地图选点模式 -->
+  <view class="mode-content" wx:if="{{currentMode === 'map'}}">
+    <!-- 地图选点按钮 -->
+    <view class="map-section">
+      <view class="map-btn" bindtap="chooseLocation">
+        <text class="map-btn-icon">📍</text>
+        <text>{{selectedAddress ? '重新选择位置' : '点击选择地图位置'}}</text>
+      </view>
+    </view>
+
+    <!-- 地图模式显示的省市区和详细地址 -->
+    <view class="address-display" wx:if="{{selectedAddress}}">
+      <view class="address-card">
+        <view class="address-row">
+          <text class="address-label">省/市/区：</text>
+          <text class="address-value">{{selectedProvince}} / {{selectedCity}} / {{selectedDistrict}}</text>
+        </view>
+        <view class="address-row">
+          <text class="address-label">详细地址：</text>
+          <text class="address-value">{{selectedAddress}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 手动选择模式 -->
+  <view class="mode-content" wx:if="{{currentMode === 'manual'}}">
+    <!-- 省市区一行选择器 -->
+    <view class="region-row">
+      <view class="region-item">
+        <picker 
+          mode="selector" 
+          range="{{provinceNames}}" 
+          value="{{manualProvinceIndex}}" 
+          bindchange="onManualProvinceChange"
+        >
+          <view class="region-value {{manualProvinceIndex === -1 ? 'placeholder' : ''}}">
+            {{manualProvinceIndex !== -1 ? provinceNames[manualProvinceIndex] : '请选择省'}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="region-item">
+        <picker 
+          mode="selector" 
+          range="{{manualCityNames}}" 
+          value="{{manualCityIndex}}" 
+          bindchange="onManualCityChange"
+          disabled="{{manualCityNames.length === 0}}"
+        >
+          <view class="region-value {{manualCityIndex === -1 ? 'placeholder' : ''}}">
+            {{manualCityIndex !== -1 ? manualCityNames[manualCityIndex] : '请选择市'}}
+          </view>
+        </picker>
+      </view>
+
+      <view class="region-item">
+        <picker 
+          mode="selector" 
+          range="{{manualDistrictNames}}" 
+          value="{{manualDistrictIndex}}" 
+          bindchange="onManualDistrictChange"
+          disabled="{{manualDistrictNames.length === 0}}"
+        >
+          <view class="region-value {{manualDistrictIndex === -1 ? 'placeholder' : ''}}">
+            {{manualDistrictIndex !== -1 ? manualDistrictNames[manualDistrictIndex] : '请选择区'}}
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 手动输入的详细地址 -->
+    <view class="manual-address">
+      <view class="input-label">
+        <text class="required-star">*</text>
+        <text>详细地址</text>
+      </view>
+      <textarea 
+        class="address-textarea" 
+        placeholder="请输入详细地址（街道、门牌号等）"
+        placeholder-class="address-textarea-placeholder"
+        value="{{manualDetailAddress}}"
+        bindinput="onManualAddressInput"
+        auto-height
+        maxlength="200"
+        show-confirm-bar="{{false}}"
+      />
+    </view>
+
+    <!-- 手动模式不显示地址卡片，只显示选择器和输入框 -->
+  </view>
+</view>

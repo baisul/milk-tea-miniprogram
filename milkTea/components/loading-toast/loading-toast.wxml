@@ -1,0 +1,10 @@
+<view class="loading-toast {{show ? 'show' : 'hide'}}">
+  <view class="loading-content scale-in">
+    <view class="loading-spinner" wx:if="{{type === 'loading'}}">
+      <view class="spinner-dot"></view>
+      <view class="spinner-dot"></view>
+      <view class="spinner-dot"></view>
+    </view>
+    <text class="loading-text">{{text}}</text>
+  </view>
+</view>

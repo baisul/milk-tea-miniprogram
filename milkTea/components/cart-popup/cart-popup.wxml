@@ -1,0 +1,119 @@
+<!--components/cart-popup/cart-popup.wxml-->
+<view class="cart-popup-mask {{show ? 'show' : ''}}" bindtap="onClose">
+  <view class="cart-popup {{show ? 'slide-up' : ''}}" catchtap="preventTap">
+    
+    <!-- 顶部操作栏 -->
+    <view class="popup-header">
+      <view class="select-all" catchtap="toggleSelectAll">
+        <view class="checkbox {{allSelected ? 'checked' : ''}}">
+          <text wx:if="{{allSelected}}" class="checkbox-icon">✓</text>
+        </view>
+        <text class="select-all-text">全选</text>
+      </view>
+      <view class="clear-btn" catchtap="clearCart">清空</view>
+    </view>
+
+    <!-- 购物车列表 -->
+    <scroll-view 
+      class="popup-scroll" 
+      scroll-y 
+      enhanced 
+      show-scrollbar="{{false}}"
+      bindscrolltolower="loadMore"
+      lower-threshold="100"
+    >
+      <!-- 加载中 -->
+      <view class="loading-wrap" wx:if="{{loading}}">
+        <view class="loading-dots">
+          <view class="loading-dot"></view>
+          <view class="loading-dot"></view>
+          <view class="loading-dot"></view>
+        </view>
+      </view>
+
+      <!-- 空状态 -->
+      <view class="empty-cart" wx:elif="{{cartList.length === 0}}">
+        <text class="empty-icon">🛒</text>
+        <text class="empty-text">购物车空空如也</text>
+      </view>
+
+      <!-- 购物车列表 -->
+      <view class="cart-list" wx:else>
+        <view class="cart-item" wx:for="{{cartList}}" wx:key="_id">
+          
+          <!-- 复选框 -->
+          <view class="cart-checkbox" catchtap="toggleSelect" data-id="{{item._id}}">
+            <view class="checkbox {{item.selected ? 'checked' : ''}}">
+              <text wx:if="{{item.selected}}" class="checkbox-icon">✓</text>
+            </view>
+          </view>
+          
+          <!-- 商品图片 -->
+          <image class="cart-image" src="{{item.productImage || '/images/drink-placeholder.png'}}" mode="aspectFill" catchtap="editCartItem" data-item="{{item}}" />
+          
+          <!-- 商品信息区域 -->
+          <view class="cart-info" catchtap="editCartItem" data-item="{{item}}">
+            <text class="cart-name">{{item.productName}}</text>
+            <!-- 商品规格 -->
+            <view class="cart-spec" catchtap="editCartItem" data-item="{{item}}">
+              <text wx:if="{{item.cupSizeLabel}}">{{item.cupSizeLabel}}</text>
+              <text wx:if="{{item.temperatureText}}"> / {{item.temperatureText}}</text>
+              <text wx:if="{{item.sweetnessText}}"> / {{item.sweetnessText}}</text>
+              <text class="edit-icon">✎</text>
+            </view>   
+            <text class="cart-price">¥{{item.price}}</text>
+          </view>
+          
+          <!-- 数量控制 -->
+          <view class="cart-quantity">
+            <view class="quantity-wrap">
+            <view class="quantity-control">
+              <view class="qty-btn minus" catchtap="decreaseQuantity" data-id="{{item._id}}" data-index="{{index}}">
+                <text class="qty-text">－</text>
+              </view>
+              <view class="qty-divider"></view>
+              <text class="qty-num">{{item.quantity}}</text>
+              <view class="qty-divider"></view>
+              <view class="qty-btn plus" catchtap="increaseQuantity" data-id="{{item._id}}" data-index="{{index}}">
+                <text class="qty-text">＋</text>
+              </view>
+            </view>
+          </view>
+        </view>  
+        </view>
+      </view>
+
+      <!-- 加载更多 -->
+      <view wx:if="{{hasMore && cartList.length > 0}}" class="load-more">
+        <text>{{loadingMore ? '加载中...' : '上拉加载更多'}}</text>
+      </view>
+    </scroll-view>
+
+    <!-- 底部结算栏 -->
+    <view class="popup-footer" wx:if="{{cartList.length > 0}}">
+      <!-- 购物车图标 -->
+      <view class="cart-icon-wrap" catchtap="onClose">
+        <image class="cart-icon" src="/images/cart-icon.png" mode="aspectFit" />
+        <view class="cart-badge" wx:if="{{selectedCount > 0}}">{{selectedCount > 99 ? '99+' : selectedCount}}</view>
+      </view>
+      
+      <!-- 价格信息 -->
+      <view class="price-info">
+        <view class="total-price">
+          <text class="price-label">合计：</text>
+          <text class="price-value">¥{{selectedTotalPrice}}</text>
+        </view>
+        <view class="delivery-fee">
+          <text class="fee-label">配送费：</text>
+          <text class="fee-value">¥{{deliveryFee}}</text>
+        </view>
+      </view>
+      
+      <!-- 结算按钮 -->
+      <view class="checkout-btn" catchtap="onCheckout">
+        <text>结算</text>
+      </view>
+    </view>
+    
+  </view>
+</view>

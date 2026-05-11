@@ -1,0 +1,14 @@
+<!-- 遮罩层 - 点击关闭 -->
+<view class="popup-mask {{show ? 'show' : ''}}" bindtap="onMaskClick"></view>
+
+<!-- 弹窗内容 - 使用 catchtap 阻止冒泡 -->
+<view class="popup-container {{show ? 'show' : ''}}" catchtap="preventClose">
+  <view class="popup-header">
+    <text class="popup-title">🤖 AI助手</text>
+    <view class="popup-close" catchtap="onCloseClick">✕</view>
+  </view>
+  <view class="popup-content">
+    <!-- 引用独立的ai-chat组件 -->
+    <ai-chat />
+  </view>
+</view>

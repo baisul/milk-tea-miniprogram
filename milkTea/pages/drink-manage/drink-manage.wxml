@@ -1,0 +1,108 @@
+<!--pages/drink-manage/drink-manage.wxml - 饮品信息维护页-->
+<view class="drink-manage-page">
+  <!-- 顶部导航栏 -->
+  <nav-bar 
+    title="饮品分类管理"
+    showBack="{{true}}"
+    titleColor="#FFFFFF"
+    backgroundColor="linear-gradient(135deg, #FF9A56, #FF7A2E)"
+    isFixed="{{true}}"
+    bind:heightChange="onNavHeightChange"
+  />
+  <!-- 顶部分类选择 -->
+  <view class="category-bar" bindtap="showCategorySelector">
+    <text class="category-label">当前分类：</text>
+    <text class="category-name">{{categoryName || '请选择'}}</text>
+    <text class="category-arrow">▾</text>
+  </view>
+
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input-wrap">
+      <text class="search-icon">🔍</text>
+      <input class="search-input" placeholder="搜索饮品名称" value="{{keyword}}" bindinput="onSearchInput" bindconfirm="onSearchConfirm" confirm-type="search" />
+    </view>
+    <view class="search-btn" bindtap="onSearch">
+      <text>搜索</text>
+    </view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-wrap" wx:if="{{loading}}">
+    <view class="loading-dots">
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-wrap" wx:elif="{{drinks.length === 0}}">
+    <empty-state text="{{keyword ? '未找到匹配饮品' : '该分类暂无饮品'}}" icon="/images/icon-drink.png" />
+    <!-- 清空搜索按钮（仅在搜索时有） -->
+      <view class="clear-search-btn" wx:if="{{keyword}}" bindtap="clearSearch">
+      <text>清空搜索</text>
+    </view>
+  </view>
+
+  <!-- 饮品列表 -->
+  <view class="drink-list" wx:else>
+    <view class="search-tip" wx:if="{{keyword}}">
+        <text>搜索 "{{keyword}}" 找到 {{drinks.length}} 个结果</text>
+        <text class="clear-tip" bindtap="clearSearch">清空</text>
+      </view>
+    <view class="drink-card fade-in" wx:for="{{drinks}}" wx:key="_id">
+      <view class="drink-main">
+        <image class="drink-image" src="{{item.image}}" mode="aspectFill" />
+        <view class="drink-info">
+          <text class="drink-name">{{item.name}}</text>
+          <text class="drink-desc">{{item.description || '暂无描述'}}</text>
+          <view class="drink-meta">
+            <text class="drink-price">¥{{item.price}}</text>
+            <text class="drink-stock">库存: {{item.stock}}</text>
+            <view class="status-tag {{item.statusClass}}">{{item.statusText}}</view>
+          </view>
+        </view>
+      </view>
+      <view class="drink-actions">
+        <view class="action-btn" catchtap="onToggleStatus" data-id="{{item._id}}" data-index="{{index}}">
+          <text class="toggle-icon {{item.isOnShelf ? 'off-icon' : 'on-icon'}}">{{item.isOnShelf ? '⏸' : '▶'}}</text>
+          <text>{{item.isOnShelf ? '下架' : '上架'}}</text>
+        </view>
+        <view class="action-btn" catchtap="onEdit" data-id="{{item._id}}">
+          <text class="action-icon">✎</text>
+          <text>编辑</text>
+        </view>
+        <view class="action-btn action-btn-danger" catchtap="onDelete" data-id="{{item._id}}" data-index="{{index}}">
+          <text class="action-icon">✕</text>
+          <text>删除</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部新增按钮 - 固定在底部 -->
+  <view class="bottom-bar" wx:if="{{!loading}}">
+    <view class="add-btn" bindtap="onAdd">
+      <text>+ 新增饮品</text>
+    </view>
+  </view>
+
+  <!-- 分类选择弹窗 -->
+  <view class="picker-mask" wx:if="{{showCategoryPicker}}" bindtap="closeCategoryPicker">
+    <view class="picker-panel slide-up" catchtap>
+      <view class="picker-header">
+        <text class="picker-title">选择分类</text>
+        <text class="picker-close" bindtap="closeCategoryPicker">✕</text>
+      </view>
+      <scroll-view class="picker-list" scroll-y>
+        <view class="picker-item {{item._id === categoryId ? 'active' : ''}}" wx:for="{{categories}}" wx:key="_id" data-id="{{item._id}}" data-name="{{item.name}}" bindtap="selectCategory">
+          <text class="picker-item-name">{{item.name}}</text>
+          <text class="picker-check" wx:if="{{item._id === categoryId}}">✓</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <view class="page-bottom-space"></view>
+</view>

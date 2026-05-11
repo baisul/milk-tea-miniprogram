@@ -1,0 +1,56 @@
+<!--pages/order-success/order-success.wxml - 下单成功页-->
+<view class="success-page">
+  <view class="success-icon-wrap scale-in">
+    <view class="success-circle">
+      <text class="success-check">✓</text>
+    </view>
+  </view>
+
+  <text class="success-title scale-in">下单成功！</text>
+  <text class="success-desc">订单已提交，请等待商家确认</text>
+
+  <!-- 订单信息卡片 -->
+  <view class="order-info-card fade-in">
+    <view class="info-row">
+      <text class="info-label">订单编号</text>
+      <text class="info-value">{{orderNo}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">订单金额</text>
+      <text class="info-value price">¥{{totalPrice}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">门店</text>
+      <text class="info-value">{{shop}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">取单方式</text>
+      <text class="info-value">{{orderType === 'dine-in' ? '堂食' : '外卖' || ''}}</text>
+    </view>
+      <!-- 收货地址（外卖） -->
+  <view class="section-card" wx:if="{{orderType === 'delivery'}}">
+    <text class="card-title">收货地址</text>
+    <view class="address-info">
+      <text class="address-text">{{addressStr}}</text>
+    </view>
+  </view>
+    <view class="info-row" wx:if="{{orderType === 'dine-in'}}">
+      <text class="info-label">联系人</text>
+      <text class="info-value">{{contactPerson}}</text>
+    </view>
+    <view class="info-row" wx:if="{{orderType === 'dine-in'}}">
+      <text class="info-label">联系人电话</text>
+      <text class="info-value">{{contactPhone}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">订单状态</text>
+      <text class="info-value status">待确认</text>
+    </view>
+  </view>
+
+  <view class="action-section fade-in">
+    <view class="btn-primary" bindtap="viewOrder">查看订单</view>
+    <view class="btn-outline" bindtap="continueOrder">继续点单</view>
+    <text class="home-link" bindtap="goHome">返回首页</text>
+  </view>
+</view>

@@ -1,0 +1,157 @@
+<!--pages/order/order.wxml - 点单Tab（店铺选择页）-->
+<view class="order-page">
+  <!-- 使用导航栏组件，不显示返回按钮 -->
+  <nav-bar 
+    title="选择店铺"
+    showBack="{{false}}"
+    titleColor="#FFFFFF"
+    backgroundColor="linear-gradient(135deg, #FF9A56, #FF7A2E)"
+    isFixed="{{true}}"
+    bind:heightChange="onNavHeightChange"
+  />
+
+  <!-- 固定区域：Tab栏 + 地图 + 搜索栏 -->
+  <view class="fixed-header" style="top: {{navHeight}}px;">
+    <!-- 顶部Tab栏 -->
+    <view class="tab-header">
+      <view class="tab-item {{currentTab === 0 ? 'active' : ''}}" data-index="0" bindtap="switchTab">
+        <text>附近</text>
+      </view>
+      <view class="tab-item {{currentTab === 1 ? 'active' : ''}}" data-index="1" bindtap="switchTab">
+        <text>收藏</text>
+      </view>
+      <view class="tab-indicator" style="transform: translateX({{currentTab === 0 ? '0%' : '100%'}});"></view>
+    </view>
+
+    <!-- 附近Tab的固定内容（地图和搜索栏） -->
+    <block wx:if="{{currentTab === 0}}">
+      <!-- 地图区域 -->
+      <view class="map-section">
+        <map class="map" latitude="{{latitude}}" longitude="{{longitude}}" markers="{{markers}}" scale="14" show-location bindmarkertap="onMarkerTap" enable-scroll enable-zoom></map>
+      </view>
+
+      <!-- 搜索栏 -->
+      <view class="search-section">
+        <view class="search-bar">
+          <view class="province-btn" bindtap="showProvincePicker">
+            <text class="province-text">{{searchProvince}}</text>
+            <text class="province-arrow">▼</text>
+          </view>
+          <view class="search-input-wrap">
+            <text class="search-icon">🔍</text>
+            <input class="search-input" placeholder="搜索店铺名称" value="{{searchKeyword}}" bindinput="onSearchInput" bindconfirm="doSearch" />
+            <text class="search-clear" wx:if="{{searchKeyword}}" bindtap="clearSearch">✕</text>
+          </view>
+          <view class="search-btn" bindtap="doSearch">搜索</view>
+        </view>
+      </view>
+    </block>
+
+    <!-- 收藏Tab的固定内容（只有搜索栏，没有地图） -->
+    <block wx:if="{{currentTab === 1}}">
+      <view class="search-section">
+        <view class="search-bar">
+          <view class="search-input-wrap" style="flex: 1;">
+            <text class="search-icon">🔍</text>
+            <input class="search-input" placeholder="搜索收藏店铺" value="{{searchKeyword}}" bindinput="onSearchInput" bindconfirm="doSearch" />
+            <text class="search-clear" wx:if="{{searchKeyword}}" bindtap="clearSearch">✕</text>
+          </view>
+          <view class="search-btn" bindtap="doSearch">搜索</view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 可滚动内容区域 -->
+  <scroll-view class="scroll-content" scroll-y enhanced show-scrollbar="{{false}}" style="top: {{fixedHeaderHeight}}px; height: {{scrollHeight}}px;">
+    <!-- 附近Tab内容 -->
+    <view wx:if="{{currentTab === 0}}">
+      <!-- 加载中 -->
+      <view class="loading-wrap" wx:if="{{loading}}">
+        <view class="loading-dots">
+          <view class="loading-dot"></view>
+          <view class="loading-dot"></view>
+          <view class="loading-dot"></view>
+        </view>
+      </view>
+
+      <!-- 店铺列表 -->
+      <view class="shop-list" wx:elif="{{shops.length > 0}}">
+        <view class="shop-card fade-in" wx:for="{{shops}}" wx:key="_id" data-id="{{item._id}}" bindtap="selectShop">
+          <image class="shop-image" src="{{item.image}}" mode="aspectFill" />
+          <view class="shop-info">
+            <view class="shop-name-row">
+              <text class="shop-name">{{item.name}}</text>
+              <text class="shop-distance">{{item.distanceText}}</text>
+            </view>
+            <text class="shop-address">{{item.address}}</text>
+            <view class="shop-tags">
+              <text class="shop-tag" wx:if="{{item.businessHours}}">{{item.businessHours}}</text>
+            </view>
+          </view>
+          <view class="shop-action" catchtap="toggleFavorite" data-id="{{item._id}}">
+            <text class="fav-icon {{item.isFavorited ? 'favorited' : ''}}">
+            {{item.isFavorited ? '❤️' : '🤍'}}
+            </text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 空状态 -->
+      <empty-state wx:else text="附近没有找到店铺" />
+    </view>
+
+    <!-- 收藏Tab内容 -->
+    <view wx:if="{{currentTab === 1}}">
+      <!-- 加载中 -->
+      <view class="loading-wrap" wx:if="{{loading}}">
+        <view class="loading-dots">
+          <view class="loading-dot"></view>
+          <view class="loading-dot"></view>
+          <view class="loading-dot"></view>
+        </view>
+      </view>
+
+      <!-- 收藏列表 -->
+      <view class="shop-list" wx:elif="{{favoriteShops.length > 0}}">
+        <view class="shop-card fade-in" wx:for="{{favoriteShops}}" wx:key="_id" data-id="{{item._id}}" bindtap="selectShop">
+          <image class="shop-image" src="{{item.image}}" mode="aspectFill" />
+          <view class="shop-info">
+            <view class="shop-name-row">
+              <text class="shop-name">{{item.name}}</text>
+              <text class="shop-distance" wx:if="{{item.distance}}">{{item.distanceText}}</text>
+            </view>
+            <text class="shop-address">{{item.address}}</text>
+            <view class="shop-tags">
+              <text class="shop-tag" wx:if="{{item.businessHours}}">{{item.businessHours}}</text>
+            </view>
+          </view>
+          <view class="shop-action" catchtap="toggleFavorite" data-id="{{item._id}}">
+            <text class="fav-icon">❤️</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 空状态 -->
+      <empty-state wx:else text="暂无收藏店铺" />
+    </view>
+
+    <!-- 底部留白 -->
+    <view class="page-bottom-space"></view>
+  </scroll-view>
+
+  <!-- 省份选择弹窗 -->
+  <view class="picker-mask" wx:if="{{provincePickerShow}}" bindtap="cancelProvince">
+    <view class="picker-panel slide-up" catchtap>
+      <view class="picker-header">
+        <text class="picker-title">选择省份</text>
+        <text class="picker-cancel" bindtap="cancelProvince">取消</text>
+      </view>
+      <scroll-view class="province-list" scroll-y>
+        <view class="province-item {{searchProvince === item ? 'active' : ''}}" wx:for="{{provinces}}" wx:key="*this" data-province="{{item}}" bindtap="onProvinceSelect">
+          {{item}}
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+</view>

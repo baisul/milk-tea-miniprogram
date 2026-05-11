@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "empty-state": "/components/empty-state/empty-state",
+    "nav-bar": "/components/nav-bar/nav-bar"
+  },
+  "navigationBarTitleText": "热门饮品维护",
+  "navigationBarBackgroundColor": "#FF7A2E",
+  "navigationBarTextStyle": "white",
+  "enablePullDownRefresh": true
+}

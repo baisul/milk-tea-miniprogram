@@ -1,0 +1,52 @@
+<!-- pages/hot-list/hot-list.wxml - 全部热门饮品列表页 -->
+<view class="hot-list-page">
+  <!-- 头部导航 -->
+  <view class="nav-header">
+    <view class="nav-back" bindtap="goBack">
+      <text class="back-text">返回</text>
+    </view>
+    <text class="nav-title">热门推荐</text>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-wrap" wx:if="{{loading && hotDrinks.length === 0}}">
+    <view class="loading-dots">
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+      <view class="loading-dot"></view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <empty-state wx:elif="{{hotDrinks.length === 0 && !loading}}" text="暂无热门饮品" />
+
+  <!-- 热门列表 -->
+  <view class="hot-list" wx:else>
+    <view class="hot-card fade-in" wx:for="{{hotDrinks}}" wx:key="_id">
+      <view class="hot-rank">{{index + 1}}</view>
+      <image class="hot-image" src="{{item.drinkImage}}" mode="aspectFill" />
+      <view class="hot-info">
+        <text class="hot-name">{{item.drink.name}}</text>
+        <text class="hot-price">¥{{item.drink.price}}</text>
+        <text class="hot-desc">{{item.drink.description || '暂无描述'}}</text>
+      </view>
+      <view class="hot-action" catchtap="onOrder" data-drink="{{item.drink}}">
+        <text class="order-btn">去点单</text>
+      </view>
+    </view>
+
+    <!-- 加载更多 -->
+    <view class="load-more" wx:if="{{hasMore}}">
+      <view class="loading-dots" wx:if="{{loadingMore}}">
+        <view class="loading-dot"></view>
+        <view class="loading-dot"></view>
+        <view class="loading-dot"></view>
+      </view>
+      <text class="load-more-text" wx:else>上拉加载更多</text>
+    </view>
+    <view class="load-more" wx:elif="{{!hasMore && hotDrinks.length > 0}}">
+      <text class="load-more-text">没有更多了</text>
+    </view>
+  </view>
+</view>

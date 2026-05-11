@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "empty-state": "/components/empty-state/empty-state",
+    "nav-bar": "/components/nav-bar/nav-bar",
+    "spec-picker": "/components/spec-picker/spec-picker",
+    "confirm-dialog": "/components/confirm-dialog/confirm-dialog"
+  },
+  "navigationBarTitleText": "购物车",
+  "enablePullDownRefresh": true
+}

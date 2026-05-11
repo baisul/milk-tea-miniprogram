@@ -1,0 +1,44 @@
+<!--pages/cart/cart.wxml - 购物车-->
+<view class="cart-page">
+  <view class="shop-header">
+    <text class="shop-name">{{shopName}}</text>
+    <text class="clear-btn" bindtap="showClearDialog" wx:if="{{cart.length > 0}}">清空</text>
+  </view>
+
+  <view class="cart-list" wx:if="{{cart.length > 0}}">
+    <view class="cart-item fade-in" wx:for="{{cart}}" wx:key="index">
+      <image class="item-image" src="{{item.image || '/images/drink-placeholder.png'}}" mode="aspectFill" />
+      <view class="item-info">
+        <view class="item-top">
+          <text class="item-name">{{item.name}}</text>
+          <text class="item-delete" bindtap="deleteItem" data-index="{{index}}">删除</text>
+        </view>
+        <text class="item-spec">{{item.cupSize === 'large' ? '大杯' : item.cupSize === 'medium' ? '中杯' : '小杯'}} / {{item.temperature === 'standard_ice' ? '标准冰' : item.temperature === 'less_ice' ? '少冰' : item.temperature === 'no_ice' ? '去冰' : '热'}} / {{item.sweetness === 'standard' ? '标准糖' : item.sweetness === 'less' ? '少糖' : item.sweetness === 'half' ? '半糖' : item.sweetness === 'light' ? '微糖' : '不额外加糖'}}</text>
+        <view class="item-bottom">
+          <text class="item-price">¥{{item.price}}</text>
+          <view class="quantity-control">
+            <view class="qty-btn" bindtap="minusQuantity" data-index="{{index}}">－</view>
+            <text class="qty-num">{{item.quantity}}</text>
+            <view class="qty-btn" bindtap="addQuantity" data-index="{{index}}">＋</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <empty-state wx:else text="购物车空空如也" />
+
+  <view class="checkout-bar" wx:if="{{cart.length > 0}}">
+    <view class="checkout-info">
+      <text class="checkout-total">
+        <text class="total-label">合计：</text>
+        <text class="total-symbol">¥</text>
+        <text class="total-price">{{cartTotal}}</text>
+      </text>
+      <text class="checkout-count">共{{cartCount}}件</text>
+    </view>
+    <view class="checkout-btn" bindtap="goCheckout">去结算</view>
+  </view>
+
+  <confirm-dialog show="{{showClearConfirm}}" title="清空购物车" content="确定要清空购物车中的所有商品吗？" confirm-text="清空" danger="{{true}}" bind:confirm="confirmClear" bind:cancel="cancelClear" />
+</view>

@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "empty-state": "/components/empty-state/empty-state",
+    "region-picker": "/components/region-picker/region-picker",
+    "map-picker": "/components/map-picker/map-picker",
+    "time-range-picker": "/components/time-range-picker/time-range-picker",
+    "nav-bar": "/components/nav-bar/nav-bar",
+    "location-picker": "/components/location-picker/location-picker"
+  }
+}

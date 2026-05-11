@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "location-picker": "/components/location-picker/location-picker",
+    "nav-bar": "/components/nav-bar/nav-bar"
+  },
+  "navigationBarTitleText": "新增收货地址"
+}

@@ -1,0 +1,316 @@
+/* pages/drink-manage/drink-manage.wxss - 饮品管理页样式 */
+
+.drink-manage-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #F7F8FA;
+}
+
+/* ============ 分类选择栏 ============ */
+.category-bar {
+  display: flex; align-items: center;
+  padding: 20rpx 32rpx;
+  background: #FFF;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.04);
+  position: relative;
+}
+
+.category-label { font-size: 26rpx; color: #999; }
+.category-name { font-size: 28rpx; font-weight: 600; color: #FF7A2E; margin: 0 8rpx; }
+.category-arrow { font-size: 24rpx; color: #CCC; }
+
+.back-btn {
+  position: absolute; right: 32rpx;
+  background: linear-gradient(135deg, #FF9A56, #FF7A2E);
+  font-size: 24rpx; color: #FFFFFF; padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+}
+.back-btn:active { background: #EEE; }
+
+/* ============ 搜索栏 ============ */
+.search-bar {
+  padding: 16rpx 32rpx;
+  background: #FFF;
+  margin-bottom: 16rpx;
+  flex-shrink: 0;
+}
+
+.search-input-wrap {
+  display: flex; align-items: center;
+  height: 72rpx; background: #F7F8FA;
+  border-radius: 36rpx; padding: 0 24rpx;
+}
+
+.search-icon { font-size: 28rpx; margin-right: 12rpx; }
+
+.search-input {
+  flex: 1; height: 72rpx; font-size: 26rpx; color: #333;
+}
+
+/* ============ 加载 ============ */
+.loading-wrap {
+  display: flex; justify-content: center; padding: 120rpx 0;
+}
+.loading-dots { display: flex; gap: 16rpx; }
+.loading-dot {
+  width: 16rpx; height: 16rpx;
+  background: #FF7A2E; border-radius: 50%;
+  animation: bounce 1.4s ease-in-out infinite both;
+}
+.loading-dot:nth-child(1) { animation-delay: -0.32s; }
+.loading-dot:nth-child(2) { animation-delay: -0.16s; }
+.loading-dot:nth-child(3) { animation-delay: 0s; }
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0.3); opacity: 0.3; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* ============ 空状态 ============ */
+.empty-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 60rpx;
+}
+.empty-btn {
+  margin: 40rpx 64rpx 0; height: 88rpx;
+  background: linear-gradient(135deg, #FF9A56, #FF7A2E);
+  border-radius: 44rpx;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4rpx 16rpx rgba(255,122,46,0.35);
+}
+.empty-btn:active { opacity: 0.85; }
+.empty-btn-text { font-size: 30rpx; font-weight: 500; color: #FFF; }
+
+/* ============ 饮品列表 ============ */
+.drink-list {
+  padding: 0 32rpx;
+  display: flex; flex-direction: column; gap: 16rpx;
+}
+
+.drink-card {
+  background: #FFF; border-radius: 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.04);
+  overflow: hidden;
+}
+
+.drink-main {
+  display: flex; padding: 24rpx;
+}
+
+.drink-image {
+  width: 140rpx; height: 140rpx;
+  border-radius: 16rpx; flex-shrink: 0;
+  margin-right: 20rpx;
+  background: #F7F8FA;
+}
+
+.drink-info { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: space-between; }
+
+.drink-name {
+  font-size: 30rpx; font-weight: 600; color: #333;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  display: block;
+}
+
+.drink-desc {
+  font-size: 22rpx; color: #999;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  display: block; margin-top: 6rpx;
+}
+
+.drink-meta { display: flex; align-items: center; gap: 16rpx; margin-top: 8rpx; }
+
+.drink-price { font-size: 30rpx; font-weight: 700; color: #FF4D4F; }
+.drink-stock { font-size: 22rpx; color: #999; }
+
+.status-tag {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 4rpx 16rpx; border-radius: 8rpx;
+  font-size: 20rpx; font-weight: 500;
+}
+.status-tag.on { background: #E8F5E9; color: #4CAF50; }
+.status-tag.off { background: #FFF0F0; color: #FF4D4F; }
+
+/* 操作 */
+.drink-actions {
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 28rpx; padding: 16rpx 24rpx;
+  border-top: 1rpx solid #F7F8FA;
+}
+
+.action-btn {
+  display: flex; align-items: center; gap: 8rpx;
+  font-size: 24rpx; color: #666; padding: 8rpx 0;
+}
+.action-btn:active { opacity: 0.7; }
+.action-icon { font-size: 28rpx; }
+.toggle-icon { font-size: 28rpx; }
+.action-btn-danger { color: #FF4D4F; }
+.action-btn-danger .action-icon { color: #FF4D4F; }
+
+/* ============ 底部按钮 ============ */
+.bottom-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  padding: 20rpx 32rpx; padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  background: #FFF; box-shadow: 0 -4rpx 16rpx rgba(0,0,0,0.06); z-index: 100;
+}
+
+.add-btn {
+  height: 88rpx; border-radius: 44rpx;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30rpx; font-weight: 500; color: #FFF;
+  background: linear-gradient(135deg, #FF9A56, #FF7A2E);
+  box-shadow: 0 4rpx 16rpx rgba(255,122,46,0.35);
+}
+.add-btn:active { opacity: 0.85; }
+
+/* ============ 分类选择弹窗 ============ */
+.picker-mask {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5); z-index: 1000;
+  display: flex; align-items: flex-end;
+}
+
+.picker-panel {
+  width: 100%; background: #FFF;
+  border-radius: 24rpx 24rpx 0 0;
+  max-height: 60vh;
+}
+
+.picker-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 28rpx 32rpx;
+  border-bottom: 1rpx solid #EEE;
+}
+
+.picker-title { font-size: 32rpx; font-weight: 600; color: #333; }
+.picker-close { font-size: 32rpx; color: #999; padding: 8rpx; }
+
+.picker-list { height: 50vh; padding: 8rpx 0; }
+
+.picker-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 28rpx 32rpx;
+  transition: background 0.15s;
+}
+.picker-item:active { background: #FAFAFA; }
+.picker-item.active { background: #FFF5ED; }
+
+.picker-item-name { font-size: 28rpx; color: #333; }
+.picker-item.active .picker-item-name { color: #FF7A2E; font-weight: 600; }
+.picker-check { font-size: 28rpx; color: #FF7A2E; font-weight: 700; }
+
+/* ============ 动画 ============ */
+.fade-in { animation: fadeIn 0.35s ease-out both; }
+.fade-in:nth-child(2) { animation-delay: 0.06s; }
+.fade-in:nth-child(3) { animation-delay: 0.12s; }
+.fade-in:nth-child(4) { animation-delay: 0.18s; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-up { animation: slideUp 0.3s ease-out; }
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.page-bottom-space { height: 60rpx; }
+/* pages/drink-manage/drink-manage.wxss */
+
+/* 搜索栏 - 添加按钮布局 */
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  background: #FFFFFF;
+  padding: 20rpx 32rpx;
+  border-bottom: 1rpx solid #F0F0F0;
+  flex-shrink: 0;
+}
+
+.search-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: #F7F8FA;
+  border-radius: 40rpx;
+  padding: 16rpx 24rpx;
+}
+
+.search-icon {
+  font-size: 28rpx;
+  color: #999;
+  margin-right: 12rpx;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+  background: transparent;
+}
+
+/* 搜索按钮 */
+.search-btn {
+  flex-shrink: 0;
+  padding: 16rpx 32rpx;
+  background: linear-gradient(135deg, #FF9A56, #FF7A2E);
+  border-radius: 40rpx;
+  color: #FFFFFF;
+  font-size: 28rpx;
+  font-weight: 500;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.search-btn:active {
+  transform: scale(0.96);
+  opacity: 0.9;
+}
+
+/* 清空搜索按钮 */
+.clear-search-btn {
+  margin-top: 24rpx;
+  padding: 16rpx 32rpx;
+  background: linear-gradient(135deg, #FF9A56, #FF7A2E);
+  border-radius: 40rpx;
+  color: #FFFFFF;
+  font-size: 28rpx;
+  font-weight: 500;
+  text-align: center;
+  display: inline-block;
+  align-self: center;
+}
+
+.clear-search-btn:active {
+  background: #E5E5E5;
+}
+
+/* 搜索提示 */
+.search-tip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 24rpx;
+  background: #FFF5ED;
+  border-radius: 16rpx;
+  margin-bottom: 16rpx;
+  font-size: 26rpx;
+  color: #FF7A2E;
+}
+
+.clear-tip {
+  color: #999;
+  padding: 8rpx 16rpx;
+  background: #FFFFFF;
+  border-radius: 20rpx;
+}
+
+.clear-tip:active {
+  background: #F5F5F5;
+}

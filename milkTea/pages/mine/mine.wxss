@@ -1,0 +1,343 @@
+/* pages/mine/mine.wxss - 我的Tab页样式 */
+
+.mine-page {
+  min-height: 100vh;
+  background: var(--bg-color, #F7F8FA);
+  padding-bottom: 140rpx;
+}
+
+/* ============ 用户信息卡片 ============ */
+.user-card {
+  position: relative;
+  margin: 24rpx 32rpx 0;
+  border-radius: 24rpx;
+  overflow: hidden;
+  background: #FFFFFF;
+  box-shadow: 0 8rpx 32rpx rgba(255, 122, 46, 0.12);
+}
+
+.user-card-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 333rpx;
+  background: linear-gradient(135deg, #FF7A2E, #FFB347, #FF9A56);
+  z-index: 0;
+}
+
+.user-info-section {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  padding: 48rpx 36rpx 36rpx;
+}
+
+.avatar-wrap {
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 4rpx solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.avatar-with-edit::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.avatar-with-edit:active::after {
+  opacity: 1;
+}
+
+.avatar-edit-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 36rpx;
+  height: 36rpx;
+  background: linear-gradient(135deg, #FF7A2E, #FF9A56);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20rpx;
+  border: 2rpx solid #FFFFFF;
+  box-shadow: 0 2rpx 8rpx rgba(255, 122, 46, 0.4);
+}
+
+.avatar-default {
+  background: rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-text {
+  font-size: 56rpx;
+}
+
+.user-avatar {
+  width: 100%;
+  height: 100%;
+}
+
+.user-text {
+  margin-left: 28rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 8rpx;
+}
+
+.user-desc {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ============ 快捷统计 ============ */
+.stats-row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 28rpx 0 32rpx;
+  margin: 0 36rpx;
+  border-top: 1rpx solid rgba(255, 122, 46, 0.1);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-num {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #FF7A2E;
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 22rpx;
+  color: var(--text-secondary, #999);
+  margin-top: 6rpx;
+}
+
+.stat-divider {
+  width: 1rpx;
+  height: 48rpx;
+  background: var(--border-color, #EEEEEE);
+}
+
+/* ============ 功能菜单 ============ */
+.menu-section {
+  padding: 32rpx 32rpx 0;
+}
+
+.menu-section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text-primary, #333);
+  display: block;
+  margin-bottom: 20rpx;
+  padding-left: 4rpx;
+}
+
+.menu-card {
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.04);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 28rpx;
+  position: relative;
+  transition: background 0.2s;
+}
+
+.menu-item:active {
+  background: #FAFAFA;
+}
+
+.menu-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 108rpx;
+  right: 28rpx;
+  height: 1rpx;
+  background: var(--border-color, #EEEEEE);
+}
+
+.menu-icon-wrap {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+
+.menu-icon-wrap:nth-child(1) {
+  background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+}
+
+.menu-item:nth-child(2) .menu-icon-wrap {
+  background: linear-gradient(135deg, #FFF5ED, #FFE0C2);
+}
+
+.menu-item:nth-child(3) .menu-icon-wrap {
+  background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+}
+
+.menu-item:nth-child(4) .menu-icon-wrap {
+  background: linear-gradient(135deg, #F3E5F5, #E1BEE7);
+}
+
+.menu-icon {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.menu-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.menu-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: var(--text-primary, #333);
+  display: block;
+  margin-bottom: 6rpx;
+}
+
+.menu-desc {
+  font-size: 22rpx;
+  color: var(--text-secondary, #999);
+  display: block;
+}
+
+.menu-arrow {
+  font-size: 36rpx;
+  color: var(--text-placeholder, #CCCCCC);
+  flex-shrink: 0;
+  margin-left: 12rpx;
+}
+
+/* ============ 活动推荐 ============ */
+.promo-section {
+  padding: 32rpx 32rpx 0;
+}
+
+.promo-card {
+  background: linear-gradient(135deg, #FFF8F0, #FFECD2);
+  border-radius: 20rpx;
+  padding: 28rpx 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.promo-card::before {
+  content: '';
+  position: absolute;
+  top: -40rpx;
+  right: -40rpx;
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  background: rgba(255, 122, 46, 0.08);
+}
+
+.promo-left {
+  flex: 1;
+}
+
+.promo-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #FF9A56, #FF7A2E);
+  color: #FFFFFF;
+  font-size: 20rpx;
+  font-weight: 500;
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
+  margin-bottom: 12rpx;
+}
+
+.promo-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text-primary, #333);
+  margin-bottom: 8rpx;
+}
+
+.promo-desc {
+  display: block;
+  font-size: 24rpx;
+  color: var(--text-regular, #666);
+}
+
+.promo-emoji {
+  font-size: 72rpx;
+  margin-left: 20rpx;
+  flex-shrink: 0;
+}
+
+/* ============ 版本信息 ============ */
+.version-info {
+  text-align: center;
+  padding: 48rpx 0 0;
+}
+
+.version-text {
+  font-size: 22rpx;
+  color: var(--text-placeholder, #CCCCCC);
+}
+
+/* ============ 动画 ============ */
+.fade-in {
+  animation: fadeIn 0.4s ease-out both;
+}
+
+.fade-in:nth-child(2) { animation-delay: 0.1s; }
+.fade-in:nth-child(3) { animation-delay: 0.2s; }
+.fade-in:nth-child(4) { animation-delay: 0.3s; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-bottom-space {
+  height: 80rpx;
+}
+

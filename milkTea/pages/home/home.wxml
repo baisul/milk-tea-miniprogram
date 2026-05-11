@@ -1,0 +1,109 @@
+<!--pages/home/home.wxml - 首页-->
+<view class="home-page">
+  <!-- 使用导航栏组件，不显示返回按钮 -->
+  <nav-bar 
+    title="奶茶点单"
+    showBack="{{false}}"
+    titleColor="#FFFFFF"
+    backgroundColor="linear-gradient(135deg, #FF9A56, #FF7A2E)"
+    isFixed="{{true}}"
+    bind:heightChange="onNavHeightChange"
+  />
+  <!-- 顶部Banner轮播 -->
+  <view class="banner-section">
+    <swiper class="banner-swiper" indicator-dots indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#FFFFFF" autoplay circular interval="4000" duration="500">
+      <swiper-item wx:for="{{banners}}" wx:key="index">
+        <image class="banner-image" src="{{item}}" mode="aspectFill" bindtap="onBannerTap" data-index="{{index}}" />
+      </swiper-item>
+      <!-- 默认Banner（无数据时显示） -->
+      <swiper-item wx:if="{{banners.length === 0}}">
+        <view class="banner-default">
+          <text class="banner-default-title">好茶好奶好时光</text>
+          <text class="banner-default-desc">每一杯都是用心之作</text>
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <!-- 两个入口卡片 -->
+  <view class="entry-section fade-in">
+    <view class="entry-card entry-dine-in" bindtap="goDineIn">
+      <view class="entry-icon-wrap dine-in-icon">
+        <text class="entry-icon-text">🏪</text>
+      </view>
+      <view class="entry-info">
+        <text class="entry-title">门店自取</text>
+        <text class="entry-desc">到店取餐，新鲜现做</text>
+      </view>
+      <text class="entry-arrow">›</text>
+    </view>
+    <view class="entry-card entry-delivery" bindtap="goDelivery">
+      <view class="entry-icon-wrap delivery-icon">
+        <text class="entry-icon-text">🛵</text>
+      </view>
+      <view class="entry-info">
+        <text class="entry-title">外卖点单</text>
+        <text class="entry-desc">送到身边，温暖直达</text>
+      </view>
+      <text class="entry-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 推荐饮品区 -->
+  <view class="recommend-section">
+    <view class="section-header">
+      <text class="section-title">🔥 热门推荐</text>
+      <view class="view-all" bindtap="goToHotList">
+      <text>查看全部</text>
+      <text class="arrow">›</text>
+  </view>
+    </view>
+
+    <!-- 加载中 -->
+    <view class="loading-wrap" wx:if="{{loading}}">
+      <view class="loading-dots">
+        <view class="loading-dot"></view>
+        <view class="loading-dot"></view>
+        <view class="loading-dot"></view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <empty-state wx:elif="{{recommendDrinks.length === 0}}" text="暂无推荐饮品" />
+
+    <!-- 饮品横向滚动列表 -->
+    <scroll-view class="drink-scroll" scroll-x enhanced show-scrollbar="{{false}}" wx:else>
+      <view class="drink-scroll-inner">
+        <view class="drink-item fade-in" wx:for="{{recommendDrinks}}" wx:key="_id" data-id="{{item._id}}" bindtap="onDrinkTap">
+          <image class="drink-image" src="{{item.drink.image}}" mode="aspectFill" />
+          <text class="drink-name">{{item.drink.name || '未知饮品'}}</text>
+          <text class="drink-desc">{{item.drink.description || '经典好喝'}}</text>
+          <view class="drink-bottom">
+            <text class="drink-price">¥{{item.drink.price || '0'}}</text>
+            <view class="drink-add-btn">+</view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 活动卡片 -->
+  <view class="activity-section">
+    <view class="activity-card">
+      <text class="activity-badge">限时活动</text>
+      <text class="activity-title">新人首杯立减5元</text>
+      <text class="activity-desc">新用户注册即享优惠，快去下单吧！</text>
+    </view>
+  </view>
+
+  <!-- 悬浮按钮 -->
+  <view class="ai-fab" bindtap="openAIChat" wx:if="{{!showChat}}">
+    <text class="fab-icon">🤖</text>
+    <text class="fab-text">AI助手</text>
+  </view>
+
+ <!-- 弹窗组件 -->
+ <ai-chat-popup show="{{showChat}}" bind:close="closeAIChat" bind:stateChange="onPopupStateChange"/>
+  <!-- 底部留白 -->
+  <view class="page-bottom-space"></view>
+</view>

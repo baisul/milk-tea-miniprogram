@@ -1,0 +1,278 @@
+/* pages/order-list/order-list.wxss - 订单管理页样式 */
+
+.order-list-page {
+  min-height: 100vh;
+  background: var(--bg-color, #F7F8FA);
+}
+
+/* ============ Tab栏 ============ */
+.tab-bar {
+  display: flex;
+  background: #FFF;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.04);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24rpx 0;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.tab-text {
+  font-size: 28rpx;
+  color: #666;
+  transition: color 0.2s;
+}
+
+.tab-item.active .tab-text {
+  color: #FF7A2E;
+  font-weight: 600;
+}
+
+.tab-line {
+  position: absolute;
+  bottom: 0;
+  width: 48rpx;
+  height: 6rpx;
+  background: linear-gradient(90deg, #FF7A2E, #FF9A56);
+  border-radius: 3rpx;
+}
+
+/* ============ 加载 ============ */
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 160rpx 0;
+}
+
+.loading-dots {
+  display: flex;
+  gap: 16rpx;
+}
+
+.loading-dot {
+  width: 16rpx;
+  height: 16rpx;
+  background: #FF7A2E;
+  border-radius: 50%;
+  animation: bounce 1.4s ease-in-out infinite both;
+}
+
+.loading-dot:nth-child(1) { animation-delay: -0.32s; }
+.loading-dot:nth-child(2) { animation-delay: -0.16s; }
+.loading-dot:nth-child(3) { animation-delay: 0s; }
+
+.loading-dots-small .loading-dot {
+  width: 12rpx;
+  height: 12rpx;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0.3); opacity: 0.3; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* ============ 空状态 ============ */
+.empty-wrap {
+  padding-top: 80rpx;
+}
+
+/* ============ 订单列表 ============ */
+.order-list {
+  padding: 16rpx 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.order-card {
+  background: #FFF;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.04);
+  overflow: hidden;
+}
+
+/* 订单头部 */
+.order-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 24rpx 0;
+}
+
+.order-shop {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  flex: 1;
+  min-width: 0;
+}
+
+.shop-icon { font-size: 28rpx; flex-shrink: 0; }
+
+.shop-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.type-badge {
+  flex-shrink: 0;
+  font-size: 20rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 6rpx;
+}
+
+.type-badge.type-dine {
+  color: #1890FF;
+  background: #E6F7FF;
+}
+
+.type-badge.type-delivery {
+  color: #FF7A2E;
+  background: #FFF5ED;
+}
+
+.status-badge {
+  flex-shrink: 0;
+  font-size: 24rpx;
+  font-weight: 500;
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
+}
+
+.status-badge.warning {
+  color: #FAAD14;
+  background: #FFFBE6;
+}
+
+.status-badge.success {
+  color: #52C41A;
+  background: #F6FFED;
+}
+
+.status-badge.danger {
+  color: #999;
+  background: #F7F8FA;
+}
+
+/* 订单主体 */
+.order-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 24rpx;
+}
+
+.item-preview {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.preview-text {
+  font-size: 26rpx;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.preview-more {
+  flex-shrink: 0;
+  font-size: 22rpx;
+  color: #999;
+}
+
+.order-total {
+  flex-shrink: 0;
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #FF4D4F;
+  margin-left: 16rpx;
+}
+
+/* 订单底部 */
+.order-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16rpx 24rpx 24rpx;
+  border-top: 1rpx solid #F7F8FA;
+}
+
+.order-time {
+  font-size: 22rpx;
+  color: #BBB;
+}
+
+.order-actions {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.cancel-btn {
+  font-size: 24rpx;
+  color: #999;
+  padding: 8rpx 20rpx;
+  border-radius: 24rpx;
+  border: 1rpx solid #DDD;
+}
+
+.cancel-btn:active { background: #F7F8FA; }
+
+.detail-btn {
+  font-size: 24rpx;
+  color: #FF7A2E;
+  padding: 8rpx 20rpx;
+  border-radius: 24rpx;
+  border: 1rpx solid #FF7A2E;
+}
+
+.detail-btn:active { background: #FFF5ED; }
+
+/* ============ 加载更多 ============ */
+.load-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32rpx 0;
+}
+
+.load-more-text {
+  font-size: 24rpx;
+  color: #BBB;
+}
+
+.load-more-end {
+  color: #DDD;
+}
+
+/* ============ 动画 ============ */
+.fade-in {
+  animation: fadeIn 0.35s ease-out both;
+}
+
+.fade-in:nth-child(2) { animation-delay: 0.06s; }
+.fade-in:nth-child(3) { animation-delay: 0.12s; }
+.fade-in:nth-child(4) { animation-delay: 0.18s; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-bottom-space { height: 60rpx; }

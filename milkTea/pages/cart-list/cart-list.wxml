@@ -1,0 +1,256 @@
+<!--pages/cardlist/cardlist.wxml-->
+<view style="min-height: 100vh; position: relative;">
+<view class="cart-page">
+  <!-- 导航栏 -->
+  <nav-bar 
+    title="购物车"
+    showBack="{{false}}"
+    titleColor="#FFFFFF"
+    backgroundColor="linear-gradient(135deg, #FF9A56, #FF7A2E)"
+    isFixed="{{true}}"
+    bind:heightChange="onNavHeightChange"
+  />
+
+    <!-- 固定顶部操作栏（全选 + 清空） -->
+    <view class="cart-action-bar-fixed" style="margin-top: {{navHeight}}px;" wx:if="{{cartList.length > 0}}">
+    <view class="action-left" catchtap="toggleSelectAll">
+      <view class="checkbox {{allSelected ? 'checked' : ''}}">
+        <text wx:if="{{allSelected}}" class="checkbox-icon">✓</text>
+      </view>
+      <text class="action-text">全选</text>
+    </view>
+    <view class="action-right" catchtap="showClearDialog">
+      <text class="clear-all-btn">清空购物车</text>
+    </view>
+  </view>
+
+  <!-- 购物车内容 -->
+  <!-- 购物车内容区域 - 调整 margin-top -->
+  <view class="cart-content" >
+    <!-- 加载中 -->
+    <view class="loading-wrap" wx:if="{{loading}}">
+      <view class="loading-dots">
+        <view class="loading-dot"></view>
+        <view class="loading-dot"></view>
+        <view class="loading-dot"></view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <block wx:elif="{{cartList.length === 0}}">
+      <view class="empty-cart">
+        <image class="empty-image" src="/images/empty-cart.png" mode="aspectFit" />
+        <text class="empty-title">购物车空空如也</text>
+        <text class="empty-subtitle" bindtap="goToHome">快去首页逛逛吧~</text>
+      </view>
+    </block>
+
+    <!-- 有数据时显示 -->
+    <block wx:else>
+      <!-- 购物车列表 -->
+      <scroll-view 
+        class="cart-scroll" 
+        scroll-y 
+        enhanced 
+        show-scrollbar="{{false}}"
+        bindscrolltolower="loadMore"
+        lower-threshold="100"
+        style="padding-top: 88rpx;"
+      >
+        <block wx:for="{{shopGroups}}" wx:key="shopId" wx:for-item="group" wx:for-index="groupIdx">
+          <!-- 店铺头部 -->
+          <view class="shop-header">
+            <text class="shop-name">🍵 {{group.shopName}}</text>
+            <!-- 移除店铺级别的清空按钮，已放到顶部 -->
+          </view>
+          
+          <!-- 该店铺下的商品列表 -->
+          <view class="cart-list">
+            <view class="cart-item fade-in" wx:for="{{group.items}}" wx:key="_id" wx:for-item="product" wx:for-index="productIdx">
+              <view class="cart-item-main">
+                <!-- 选择框 -->
+                <view class="cart-checkbox" catchtap="toggleSelect" data-id="{{product._id}}">
+                  <view class="checkbox {{product.selected ? 'checked' : ''}}">
+                    <text wx:if="{{product.selected}}" class="checkbox-icon">✓</text>
+                  </view>
+                </view>
+
+                <!-- 商品图片 -->
+                <image class="cart-item-image" src="{{product.productImage || '/images/drink-placeholder.png'}}" mode="aspectFill" />
+                
+                <!-- 商品信息 -->
+                <view class="cart-item-info">
+                  <view class="item-top">
+                    <text class="cart-item-name">{{product.productName}}</text>
+                    <text class="item-delete" catchtap="deleteCartItem" data-id="{{product._id}}" data-group-index="{{groupIdx}}" data-item-index="{{productIdx}}">删除</text>
+                  </view>
+                  
+                  <!-- 🔧 修复1：将 item 改为 product -->
+                  <view class="cart-info" catchtap="onEditCartItem" data-item="{{product}}">
+                    <!-- 商品规格 -->
+                    <view class="cart-spec" catchtap="onEditCartItem" data-item="{{product}}">
+                      <text wx:if="{{product.cupSizeLabel}}">{{product.cupSizeLabel}}</text>
+                      <text wx:if="{{product.temperatureText}}"> / {{product.temperatureText}}</text>
+                      <text wx:if="{{product.sweetnessText}}"> / {{product.sweetnessText}}</text>
+                      <text class="edit-icon">✎</text>
+                    </view>   
+                    <text class="cart-price">¥{{product.price}}</text>
+                  </view>
+                  
+                  <!-- 数量控制 -->
+                  <!-- 🔧 修复2：将 item 改为 product，index 改为 productIdx -->
+                  <view class="cart-quantity">
+                    <view class="quantity-wrap">
+                      <view class="quantity-control">
+                        <view class="qty-btn minus" catchtap="decreaseQuantity" data-id="{{product._id}}" data-index="{{productIdx}}">
+                          <text class="qty-text">－</text>
+                        </view>
+                        <view class="qty-divider"></view>
+                        <text class="qty-num">{{product.quantity}}</text>
+                        <view class="qty-divider"></view>
+                        <view class="qty-btn plus" catchtap="increaseQuantity" data-id="{{product._id}}" data-index="{{productIdx}}">
+                          <text class="qty-text">＋</text>
+                        </view>
+                      </view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </block>
+        
+        <!-- 加载更多 -->
+        <view wx:if="{{hasMore}}" class="load-more-tip">
+          <text>{{loadingMore ? '加载中...' : '上拉加载更多'}}</text>
+        </view>
+        <view wx:elif="{{cartList.length > 0}}" class="load-more-tip">
+          <text>没有更多了~</text>
+        </view>
+      </scroll-view>
+
+    </block>
+  </view>
+
+  <!-- 使用规格选择组件 -->
+  <spec-picker 
+    id="specPicker"
+    shopId="{{shopId}}"
+    shopName="{{shopName}}"
+    bind:close="onSpecClose"
+    bind:add="onSpecAdd"
+  />
+
+  <!-- 清空确认弹窗 -->
+  <confirm-dialog 
+    show="{{showClearConfirm}}" 
+    title="清空购物车" 
+    content="确定要清空购物车中的所有商品吗？" 
+    confirm-text="清空" 
+    danger="{{true}}" 
+    bind:confirm="confirmClear" 
+    bind:cancel="cancelClear" 
+  />
+
+  <!-- 编辑购物车弹窗 -->
+  <view class="edit-modal-mask" wx:if="{{showEditModal}}" bindtap="closeEditModal">
+    <view class="edit-modal" catchtap="preventTap">
+      <view class="edit-modal-header">
+        <text class="edit-modal-title">编辑商品</text>
+        <text class="edit-modal-close" bindtap="closeEditModal">✕</text>
+      </view>
+      <view class="edit-modal-body">
+        <image class="edit-product-image" src="{{editProduct.image}}" mode="aspectFill" />
+        <text class="edit-product-name">{{editProduct.name}}</text>
+        
+        <!-- 规格选择（杯型） -->
+        <view class="edit-form-item" wx:if="{{editCupSizes && editCupSizes.length > 0}}">
+          <text class="edit-label">杯型</text>
+          <view class="edit-spec-options">
+            <view 
+              class="edit-spec-item {{editSelectedCupSize === specItem.key ? 'active' : ''}}"
+              wx:for="{{editCupSizes}}" 
+              wx:key="key"
+              wx:for-item="specItem"
+              data-key="{{specItem.key}}"
+              data-price="{{specItem.price}}"
+              catchtap="onEditCupSizeChange">
+              {{specItem.name}}
+              <text class="spec-extra" wx:if="{{specItem.extraPrice > 0}}">+¥{{specItem.extraPrice}}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 温度选择 -->
+        <view class="edit-form-item" wx:if="{{editTemperatureOptions.length > 0}}">
+          <text class="edit-label">温度</text>
+          <view class="edit-spec-options">
+            <view 
+              class="edit-spec-item {{editTemperature === tempItem.value ? 'active' : ''}}"
+              wx:for="{{editTemperatureOptions}}" 
+              wx:key="value"
+              wx:for-item="tempItem"
+              data-value="{{tempItem.value}}"
+              data-label="{{tempItem.label}}"
+              catchtap="onEditTemperatureChange">
+              {{tempItem.label}}
+            </view>
+          </view>
+        </view>
+
+        <!-- 甜度选择 -->
+        <view class="edit-form-item" wx:if="{{editSweetnessOptions.length > 0}}">
+          <text class="edit-label">甜度</text>
+          <view class="edit-spec-options">
+            <view 
+              class="edit-spec-item {{editSweetness === sweetItem.value ? 'active' : ''}}"
+              wx:for="{{editSweetnessOptions}}" 
+              wx:key="value"
+              wx:for-item="sweetItem"
+              data-value="{{sweetItem.value}}"
+              data-label="{{sweetItem.label}}"
+              catchtap="onEditSweetnessChange">
+              {{sweetItem.label}}
+            </view>
+          </view>
+        </view>
+
+        <!-- 数量选择 -->
+        <view class="edit-form-item">
+          <text class="edit-label">数量</text>
+          <view class="edit-quantity-control">
+            <view class="qty-btn" catchtap="editDecreaseQuantity">－</view>
+            <text class="qty-num">{{editQuantity}}</text>
+            <view class="qty-btn" catchtap="editIncreaseQuantity">＋</view>
+          </view>
+        </view>
+
+        <!-- 备注 -->
+        <view class="edit-form-item">
+          <text class="edit-label">备注</text>
+          <input class="edit-input" placeholder="请输入备注" value="{{editRemark}}" bindinput="onEditRemarkInput" />
+        </view>
+      </view>
+      <view class="edit-modal-footer">
+        <view class="edit-btn cancel" bindtap="closeEditModal">取消</view>
+        <view class="edit-btn confirm" catchtap="saveEditCart">保存</view>
+      </view>
+    </view>
+  </view>
+
+
+</view>
+
+      <!-- 底部结算栏 - 移到最外层 -->
+      <view class="cart-footer" wx:if="{{cartList.length > 0}}">
+    <view class="footer-right">
+      <view class="cart-total">
+        <text class="total-label">合计：</text>
+        <text class="total-price">¥{{selectedTotalPrice}}</text>
+      </view>
+      <view class="checkout-btn" catchtap="checkout">
+        <text>去结算 ({{selectedCount}})</text>
+      </view>
+    </view>
+  </view>
+</view>

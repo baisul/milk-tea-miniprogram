@@ -1,0 +1,102 @@
+<view class="mask" wx:if="{{show}}" bindtap="onClose" id="spec-picker">
+  <view class="picker-panel slide-up" catchtap="preventTap">
+    <!-- 顶部关闭按钮 -->
+    <view class="picker-close-wrap">
+      <view class="picker-close" bindtap="onClose">✕</view>
+    </view>
+    
+    <view class="picker-body">
+      <!-- 商品图片区域 -->
+      <view class="drink-image-wrap">
+        <image class="drink-img" src="{{drink.image || '/images/drink-placeholder.png'}}" mode="widthFix" />
+      </view>
+      
+      <!-- 商品名称 -->
+      <text class="drink-name">{{drink.name}}</text>
+      
+      <!-- 商品描述 -->
+      <text class="drink-desc">{{drink.description || '精选优质原料，匠心制作'}}</text>
+      
+      <!-- 杯型选择 -->
+      <view class="spec-section" wx:if="{{cupSizes && cupSizes.length > 0}}">
+        <text class="spec-label">杯型</text>
+        <view class="spec-options">
+          <view 
+            class="spec-item {{cupSize === item.key ? 'active' : ''}}"
+            wx:for="{{cupSizes}}" 
+            wx:key="key"
+            data-key="{{item.key}}" 
+            bindtap="selectCupSize">
+            {{item.text}}<text class="spec-extra" wx:if="{{item.extra && item.extra !== ''}}">{{item.extra}}</text>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 温度选择 -->
+      <view class="spec-section" wx:if="{{temperatures.length > 0}}">
+        <text class="spec-label">温度</text>
+        <view class="spec-options">
+          <view 
+            class="spec-item {{temperature === item.key ? 'active' : ''}}" 
+            wx:for="{{temperatures}}" 
+            wx:key="key" 
+            data-key="{{item.key}}" 
+            bindtap="selectTemperature">
+            {{item.text}}
+          </view>
+        </view>
+      </view>
+      
+      <!-- 甜度选择 -->
+      <view class="spec-section" wx:if="{{sweetnesses.length > 0}}">
+        <text class="spec-label">甜度</text>
+        <view class="spec-options">
+          <view 
+            class="spec-item {{sweetness === item.key ? 'active' : ''}}" 
+            wx:for="{{sweetnesses}}" 
+            wx:key="key" 
+            data-key="{{item.key}}" 
+            bindtap="selectSweetness">
+            {{item.text}}
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 普通模式：底部操作栏 -->
+    <view class="picker-footer" wx:if="{{!isEditMode}}">
+      <!-- 左侧：立即购买区域 -->
+      <view class="buy-now-area">
+        <view class="subtotal-wrap">
+          <text class="subtotal-label">小计</text>
+          <text class="subtotal-price">¥{{displayPrice}}</text>
+        </view>
+        <view class="buy-now-btn" bindtap="onBuyNow">立即购买</view>
+      </view>
+      
+      <!-- 右侧：加入购物车区域 -->
+      <view class="add-cart-area">
+        <view class="quantity-wrap">
+          <view class="quantity-control">
+            <view class="qty-btn minus" bindtap="minus">
+              <text class="qty-text">-</text>
+            </view>
+            <view class="qty-divider"></view>
+            <text class="qty-num">{{quantity}}</text>
+            <view class="qty-divider"></view>
+            <view class="qty-btn plus" bindtap="plus">
+              <text class="qty-text">+</text>
+            </view>
+          </view>
+        </view>
+        <view class="add-cart-btn" bindtap="onAdd">加入购物车</view>
+      </view>
+    </view>
+    
+    <!-- 编辑模式：确认修改按钮（占满宽度） -->
+    <view class="picker-footer-edit" wx:if="{{isEditMode}}">
+      <view class="edit-confirm-btn" bindtap="onAdd">确认修改</view>
+    </view>
+    
+  </view>
+</view>

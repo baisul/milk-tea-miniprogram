@@ -1,0 +1,28 @@
+{
+  "name": "_auto_c17057e0edfb4aaf952b8fe9b8d18523",
+  "leadAgentId": "c17057e0edfb4aaf952b8fe9b8d18523",
+  "workspacePath": "d:\\milkTea",
+  "createdAt": "2026-03-20T08:50:15.432Z",
+  "options": {
+    "workspacePath": "d:\\milkTea",
+    "isAutoTeam": true
+  },
+  "members": [
+    {
+      "memberId": "team-lead@_auto_c17057e0edfb4aaf952b8fe9b8d18523",
+      "name": "team-lead",
+      "role": "Team Lead - coordinates the team and interacts with the user"
+    },
+    {
+      "memberId": "menu-page@_auto_c17057e0edfb4aaf952b8fe9b8d18523",
+      "name": "menu-page",
+      "role": "实现分类点单页menu"
+    },
+    {
+      "memberId": "cart-checkout@_auto_c17057e0edfb4aaf952b8fe9b8d18523",
+      "name": "cart-checkout",
+      "role": "实现购物车和结算页"
+    }
+  ],
+  "isAutoTeam": true
+}

@@ -1,0 +1,170 @@
+/* pages/checkout/checkout.wxss */
+.checkout-page { min-height: 100vh; background: #F7F8FA; padding: 24rpx 24rpx 160rpx; }
+
+.section-card { background: #fff; border-radius: 20rpx; padding: 28rpx; margin-bottom: 20rpx; box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04); }
+
+.shop-info {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+.shop-icon {
+  font-size: 48rpx;
+}
+
+.shop-detail {
+  flex: 1;
+}
+
+.shop-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333333;
+}
+.order-type-tag { font-size: 20rpx; color: #FF7A2E; background: #FFF5ED; padding: 4rpx 12rpx; border-radius: 6rpx; }
+
+.order-items { margin-bottom: 20rpx; }
+.order-item { display: flex; align-items: center; padding: 16rpx 0; border-bottom: 1rpx solid #F7F8FA; }
+.order-item:last-child { border-bottom: none; }
+.item-img { width: 80rpx; height: 80rpx; border-radius: 10rpx; margin-right: 16rpx; flex-shrink: 0; }
+.item-detail { flex: 1; min-width: 0; }
+.item-name { font-size: 28rpx; font-weight: 500; color: #333; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item-spec { font-size: 22rpx; color: #999; display: block; margin-top: 4rpx; }
+.item-right { flex-shrink: 0; text-align: right; margin-left: 16rpx; }
+.item-price { font-size: 28rpx; color: #333; display: block; }
+.item-qty { font-size: 24rpx; color: #999; display: block; }
+.total-row { display: flex; align-items: center; justify-content: space-between; padding-top: 16rpx; border-top: 1rpx solid #eee; }
+.total-label { font-size: 28rpx; color: #666; }
+.total-price { font-size: 36rpx; font-weight: 700; color: #FF4D4F; }
+
+.form-input { width: 100%; height: 80rpx; background: #F7F8FA; border-radius: 12rpx; padding: 0 24rpx; font-size: 28rpx; color: #333; box-sizing: border-box; }
+.form-textarea { width: 100%; min-height: 120rpx; background: #F7F8FA; border-radius: 12rpx; padding: 20rpx 24rpx; font-size: 28rpx; color: #333; box-sizing: border-box; line-height: 1.6; }
+.form-picker { display: flex; align-items: center; justify-content: space-between; height: 80rpx; background: #F7F8FA; border-radius: 12rpx; padding: 0 24rpx; }
+.picker-value { font-size: 28rpx; color: #333; }
+.picker-arrow { font-size: 32rpx; color: #ccc; }
+
+.address-card { display: flex; flex-wrap: wrap; }
+.address-info { flex: 1; }
+.address-top { display: flex; align-items: center; margin-bottom: 8rpx; }
+.address-name { font-size: 30rpx; font-weight: 600; color: #333; margin-right: 8rpx; }
+.address-gender { font-size: 24rpx; color: #666; margin-right: 16rpx; }
+.address-phone { font-size: 26rpx; color: #666; }
+.address-detail { font-size: 26rpx; color: #999; display: block; line-height: 1.5; }
+.address-tag { display: inline-block; font-size: 20rpx; color: #FF7A2E; background: #FFF5ED; padding: 4rpx 12rpx; border-radius: 6rpx; margin-top: 8rpx; }
+.address-empty { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20rpx 0; }
+.address-add-text { font-size: 28rpx; color: #999; }
+.address-arrow { font-size: 32rpx; color: #ccc; padding: 8rpx; flex-shrink: 0; }
+
+.address-picker-mask { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: flex-end; }
+.address-picker-panel { width: 100%; background: #fff; border-radius: 24rpx 24rpx 0 0; max-height: 70vh; }
+.address-picker-header { display: flex; align-items: center; justify-content: space-between; padding: 28rpx 32rpx; border-bottom: 1rpx solid #eee; }
+.picker-title { font-size: 32rpx; font-weight: 600; color: #333; }
+.header-right { display: flex; align-items: center; gap: 20rpx; }
+.add-new-btn { font-size: 26rpx; color: #FF7A2E; font-weight: 500; }
+.close-btn { font-size: 32rpx; color: #999; }
+.address-picker-list { height: 55vh; padding: 16rpx 32rpx; }
+.address-pick-item { padding: 24rpx 0; border-bottom: 1rpx solid #F7F8FA; }
+.address-pick-item.active { background: #FFF5ED; border-radius: 12rpx; padding: 24rpx 16rpx; }
+.pick-item-top { display: flex; align-items: center; margin-bottom: 8rpx; }
+.pick-name { font-size: 28rpx; font-weight: 600; color: #333; margin-right: 8rpx; }
+.pick-gender { font-size: 24rpx; color: #666; margin-right: 16rpx; }
+.pick-phone { font-size: 26rpx; color: #666; }
+.pick-address { font-size: 24rpx; color: #999; display: block; line-height: 1.5; }
+
+.submit-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 120rpx; background: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 32rpx; padding-bottom: env(safe-area-inset-bottom); box-shadow: 0 -4rpx 16rpx rgba(0,0,0,0.06); z-index: 100; }
+.submit-info { display: flex; align-items: baseline; }
+.submit-label { font-size: 26rpx; color: #666; }
+.submit-price { font-size: 40rpx; font-weight: 700; color: #FF4D4F; }
+.submit-btn { height: 80rpx; padding: 0 56rpx; background: linear-gradient(135deg, #FF9A56, #FF7A2E); color: #fff; font-size: 30rpx; font-weight: 500; border-radius: 40rpx; display: flex; align-items: center; justify-content: center; box-shadow: 0 4rpx 12rpx rgba(255,122,46,0.35); }
+.submit-btn:active { opacity: 0.85; }
+.submit-btn.disabled { opacity: 0.5; }
+
+/* 标题行样式 - 让标题和星号在同一行 */
+.section-title-wrap {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.section-title {
+  font-size: 28rpx; font-weight: 600; color: #333
+}
+
+/* 必填星号样式 */
+.required-star {
+  color: #FF4D4F;
+  font-size: 28rpx;
+  margin-left: 12rpx;  /* 与标题留一点距离 */
+}
+
+.slide-up { animation: slideUp 0.3s ease-out; }
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+/* 外卖/到店切换样式 */
+.order-type-selector {
+  padding: 20rpx 32rpx;
+}
+
+.type-switch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32rpx;
+}
+
+.type-item {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: #999999;
+  padding: 12rpx 0;
+  cursor: pointer;
+}
+
+.type-item.active {
+  color: #FF4D4F;  /* 红色 */
+}
+
+.type-divider {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: #dddddd;
+}
+/* 配送费行样式 */
+.delivery-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0 12rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.delivery-label {
+  font-size: 28rpx;
+  color: #666666;
+}
+
+.delivery-price {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333333;
+}
+
+/* 实付金额行样式 */
+.final-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0 8rpx 0;
+}
+
+.final-label {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333333;
+}
+
+.final-price {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #FF7A2E;
+}

@@ -1,0 +1,63 @@
+<!--pages/address-edit/address-edit.wxml - 新增/编辑收货地址页-->
+<view class="address-edit-page">
+  <!-- 使用导航栏组件，不显示返回按钮 -->
+  <nav-bar 
+    title=""
+    showBack="{{true}}"
+    titleColor="#FFFFFF"
+    backgroundColor="linear-gradient(135deg, #FF9A56, #FF7A2E)"
+    isFixed="{{true}}"
+    bind:heightChange="onNavHeightChange"
+  />
+  <!-- 收货人信息 -->
+  <view class="form-section">
+    <view class="section-label">收货人</view>
+    <view class="form-group">
+      <input class="form-input" placeholder="请输入收货人姓名" value="{{form.name}}" bindinput="onNameInput" maxlength="20" />
+    </view>
+  </view>
+
+  <!-- 性别选择 -->
+  <view class="form-section">
+    <view class="section-label">性别</view>
+    <view class="gender-row">
+      <view class="gender-item {{form.gender === item.value ? 'active' : ''}}" wx:for="{{genderOptions}}" wx:key="value" data-value="{{item.value}}" bindtap="onGenderChange">
+        <view class="gender-check">
+          <text wx:if="{{form.gender === item.value}}">✓</text>
+        </view>
+        <text class="gender-text">{{item.label}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 联系电话 -->
+  <view class="form-section">
+    <view class="section-label">联系电话</view>
+    <view class="form-group">
+      <input class="form-input" type="number" placeholder="请输入手机号码" value="{{form.phone}}" bindinput="onPhoneInput" maxlength="11" />
+    </view>
+  </view>
+
+  <!-- 使用位置选择组件 -->
+  <location-picker id="locationPicker"  initial-data="{{componentInitialData}}"bind:change="onLocationChange" />
+  
+  <!-- 地址标签 -->
+  <view class="form-section">
+    <view class="section-label">地址标签</view>
+    <view class="tag-row">
+      <view class="tag-item {{form.tag === item.value ? 'active' : ''}} {{item.value}}" wx:for="{{tags}}" wx:key="value" data-value="{{item.value}}" bindtap="onTagSelect">
+        <text>{{item.label}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view class="save-section">
+    <view class="save-btn {{submitting ? 'disabled' : ''}}" bindtap="onSave">
+      <text>{{submitting ? '保存中...' : '保存地址'}}</text>
+    </view>
+  </view>
+
+  <!-- 底部留白 -->
+  <view style="height: 40rpx;"></view>
+</view>

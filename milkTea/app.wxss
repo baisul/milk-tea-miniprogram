@@ -1,0 +1,282 @@
+/* app.wxss - 全局样式 */
+
+/* ============ 主题色变量 ============ */
+page {
+  --primary: #FF7A2E;
+  --primary-light: #FF9A56;
+  --primary-dark: #E86A1E;
+  --primary-bg: #FFF5ED;
+  --bg-color: #F7F8FA;
+  --card-bg: #FFFFFF;
+  --text-primary: #333333;
+  --text-regular: #666666;
+  --text-secondary: #999999;
+  --text-placeholder: #CCCCCC;
+  --price-color: #FF4D4F;
+  --success-color: #52C41A;
+  --warning-color: #FAAD14;
+  --danger-color: #FF4D4F;
+  --border-color: #EEEEEE;
+  --shadow-color: rgba(0, 0, 0, 0.06);
+  --radius-sm: 8rpx;
+  --radius-md: 16rpx;
+  --radius-lg: 24rpx;
+  --radius-round: 999rpx;
+
+  font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 28rpx;
+  color: var(--text-regular);
+  background-color: var(--bg-color);
+  box-sizing: border-box;
+}
+
+/* ============ 通用类 ============ */
+.container {
+  padding: 24rpx 32rpx;
+  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4rpx 16rpx var(--shadow-color);
+  margin-bottom: 24rpx;
+  overflow: hidden;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+/* 文字 */
+.text-primary { color: var(--text-primary); }
+.text-regular { color: var(--text-regular); }
+.text-secondary { color: var(--text-secondary); }
+.text-price { color: var(--price-color); }
+.text-theme { color: var(--primary); }
+
+.font-bold { font-weight: 600; }
+.font-medium { font-weight: 500; }
+
+.text-sm { font-size: 24rpx; }
+.text-base { font-size: 28rpx; }
+.text-lg { font-size: 32rpx; }
+.text-xl { font-size: 36rpx; }
+.text-xxl { font-size: 40rpx; }
+.text-price-lg { font-size: 36rpx; font-weight: 600; color: var(--price-color); }
+
+/* 按钮 */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  border-radius: var(--radius-lg);
+  font-size: 30rpx;
+  font-weight: 500;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  transition: opacity 0.2s;
+}
+
+.btn::after {
+  border: none;
+}
+
+.btn:active {
+  opacity: 0.8;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  color: #FFFFFF;
+  box-shadow: 0 4rpx 16rpx rgba(255, 122, 46, 0.35);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--primary);
+  border: 2rpx solid var(--primary);
+}
+
+.btn-danger {
+  background: var(--danger-color);
+  color: #FFFFFF;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-sm {
+  height: 56rpx;
+  font-size: 24rpx;
+  border-radius: var(--radius-md);
+  padding: 0 24rpx;
+}
+
+.btn-round {
+  border-radius: var(--radius-round);
+}
+
+/* 输入框 */
+.input-field {
+  width: 100%;
+  height: 88rpx;
+  background: var(--bg-color);
+  border-radius: var(--radius-md);
+  padding: 0 24rpx;
+  font-size: 28rpx;
+  color: var(--text-primary);
+  box-sizing: border-box;
+}
+
+.input-field-placeholder {
+  color: var(--text-placeholder);
+}
+
+/* 标签 */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rpx 16rpx;
+  font-size: 22rpx;
+  border-radius: var(--radius-sm);
+  background: var(--primary-bg);
+  color: var(--primary);
+}
+
+.tag-success {
+  background: #F0FFF0;
+  color: var(--success-color);
+}
+
+.tag-danger {
+  background: #FFF0F0;
+  color: var(--danger-color);
+}
+
+.tag-warning {
+  background: #FFFBE6;
+  color: var(--warning-color);
+}
+
+/* 分割线 */
+.divider {
+  height: 1rpx;
+  background: var(--border-color);
+  margin: 24rpx 0;
+}
+
+/* 价格符号 */
+.price-symbol {
+  font-size: 24rpx;
+  font-weight: 500;
+}
+
+/* 安全区域底部间距 */
+.safe-bottom {
+  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
+}
+
+.safe-bottom-lg {
+  padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
+}
+
+/* ============ 动画 ============ */
+
+/* 淡入 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* 从底部滑入 */
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+/* 缩放 */
+@keyframes scaleIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.scale-in {
+  animation: scaleIn 0.2s ease-out;
+}
+
+/* 脉冲 */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.pulse {
+  animation: pulse 0.3s ease-out;
+}
+
+/* 飞入购物车动画 */
+@keyframes flyToCart {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(0.5) translateY(-100rpx); opacity: 0.8; }
+  100% { transform: scale(0) translateY(200rpx); opacity: 0; }
+}
+
+.fly-to-cart {
+  animation: flyToCart 0.5s ease-in forwards;
+}
+
+/* 横向滚动隐藏滚动条 */
+::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
+/* 页面容器，适配自定义TabBar */
+.page-with-tabbar {
+  padding-bottom: 120rpx;
+}
+
+/* 空页面底部留白 */
+.page-bottom-space {
+  height: 160rpx;
+}

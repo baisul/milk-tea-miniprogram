@@ -1,0 +1,15 @@
+<!-- components/map-picker/map-picker.wxml -->
+<view class="map-picker">
+  <view class="field-label">经纬度（地图定位）</view>
+
+  <view class="map-preview" wx:if="{{displayingText}}">
+    <text class="map-preview-text">{{displayingText}}</text>
+  </view>
+
+  <view class="map-actions">
+    <view class="map-btn" bindtap="chooseLocation">
+      <text>{{displayingText ? '重新选择位置' : '选择地图位置'}}</text>
+    </view>
+  </view>
+</view>
+

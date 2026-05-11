@@ -1,0 +1,27 @@
+<!--components/nav-bar/nav-bar.wxml-->
+<view class="nav-bar" style="background: {{backgroundColor}}; padding-top: {{statusBarHeight}}px;">
+  <view class="nav-bar-content" style="height: {{navBarHeight}}px;">
+    <!-- 返回按钮区域 -->
+    <view class="nav-left" wx:if="{{showBack}}">
+      <view class="back-btn" bindtap="onBackTap" hover-class="back-btn-hover" hover-stay-time="100">
+        <image class="back-icon-img" src="{{backIconUrl || '/images/arrow-left.png'}}" mode="aspectFit"></image>
+      </view>
+    </view>
+    
+    <!-- 占位区域（无返回按钮时保持对称） -->
+    <view class="nav-left" wx:else></view>
+    
+    <!-- 标题区域 -->
+    <view class="nav-center">
+      <text class="nav-title" style="color: {{titleColor}};">{{title}}</text>
+    </view>
+    
+    <!-- 右侧自定义区域（插槽） -->
+    <view class="nav-right">
+      <slot name="right"></slot>
+    </view>
+  </view>
+</view>
+
+<!-- 占位视图（解决 fixed 定位导致的页面内容被遮挡问题） -->
+<view class="nav-placeholder" wx:if="{{isFixed}}" style="height: {{totalHeight}}px;"></view>

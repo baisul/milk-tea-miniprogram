@@ -1,0 +1,9 @@
+{
+  "name": "drinkManager",
+  "version": "1.0.0",
+  "description": "饮品管理云函数（含分类管理）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

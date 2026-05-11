@@ -1,0 +1,59 @@
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input-wrapper">
+      <image class="search-icon" src="/images/search.png" mode="aspectFit" />
+      <input class="search-input" placeholder="搜索店铺名称" value="{{searchKeyword}}" bindinput="onSearchInput" />
+    </view>
+  </view>
+
+  <!-- 当前位置 -->
+  <view class="location-info" wx:if="{{userLocation}}">
+    <image class="location-icon" src="/images/location.png" mode="aspectFit" />
+    <text class="location-text">已定位到当前位置</text>
+    <text class="relocate" bindtap="onRelocate">重新定位</text>
+  </view>
+
+  <!-- 店铺列表 -->
+  <view class="shop-list">
+    <view class="shop-item" 
+          wx:for="{{shops}}" 
+          wx:key="_id"
+          bindtap="onSelectShop"
+          data-shop="{{item}}">
+      
+      <view class="shop-header">
+        <view class="shop-name">{{item.name}}</view>
+        <view class="shop-distance" wx:if="{{item.distance}}">
+          {{item.distance}}m
+        </view>
+      </view>
+
+      <view class="shop-info">
+        <image class="info-icon" src="/images/location-gray.png" mode="aspectFit" />
+        <text class="info-text">{{item.address}}</text>
+      </view>
+
+      <view class="shop-info">
+        <image class="info-icon" src="/images/clock.png" mode="aspectFit" />
+        <text class="info-text">{{item.businessHours || '10:00-22:00'}}</text>
+      </view>
+
+      <view class="shop-status">
+        <view class="status-tag open">营业中</view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <empty-state wx:if="{{!loading && shops.length === 0}}" 
+                  icon="shop"
+                  text="暂无店铺"
+                  subtext="附近没有可用的店铺" />
+  </view>
+
+  <!-- 全屏加载 -->
+  <view class="loading-mask" wx:if="{{loading}}">
+    <image class="loading-icon" src="/images/loading.png" mode="aspectFit" />
+    <text class="loading-text">加载中...</text>
+  </view>
+</view>
