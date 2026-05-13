@@ -1,6 +1,7 @@
 {
   "usingComponents": {
-    "empty-state": "/components/empty-state/empty-state"
+    "empty-state": "/components/empty-state/empty-state",
+    "nav-bar": "/components/nav-bar/nav-bar"
   },
   "navigationStyle": "custom"
 }

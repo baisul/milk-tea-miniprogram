@@ -38,7 +38,7 @@ exports.main = async (event, context) => {
       case 'batchDeleteCart':
         return await batchDeleteCart(openid, data);
       case 'getCartCount':
-      return await getCartCount(openid);
+      return await getCartCount(openid,data);
       default:
         return { code: 400, message: '未知操作' };
     }
@@ -178,34 +178,57 @@ async function getCartList(openid, data) {
 /**
  * 获取购物车商品数量和总价（按店铺）
  */
+// 获取购物车数量和总价
 async function getCartCount(openid, data = {}) {
-  const { shopId = null } = data;
   
+  // 构建查询条件
   let where = {
     userId: openid,
     status: 1
   };
   
-  if (shopId) {
-    where.shopId = shopId;
+  // 检查是否有 shopId
+  if (data && data.shopId) {
+    where.shopId = data.shopId;
+    console.log('✅ 添加店铺过滤:', data.shopId);
+  } else {
+    console.log('⚠️ 没有 shopId 过滤条件');
   }
   
-  const result = await db.collection('shopping_cart')
-    .where(where)
-    .get();
+  console.log('最终查询条件:', JSON.stringify(where));
   
-  const count = result.data.reduce((sum, item) => sum + item.quantity, 0);
-  const total = result.data.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  
-  return {
-    code: 200,
-    data: {
-      count: count,
-      total: total
-    }
-  };
+  try {
+    const result = await db.collection('shopping_cart')
+      .where(where)
+      .get();
+    
+    console.log('查询到记录数:', result.data.length);
+    
+    // 计算总数和总价
+    let count = 0;
+    let total = 0;
+    result.data.forEach(item => {
+      count += item.quantity || 0;
+      total += (item.price || 0) * (item.quantity || 0);
+    });
+    
+    console.log('统计结果:', { count, total });
+    
+    return {
+      code: 200,
+      data: {
+        count: count,
+        total: total
+      }
+    };
+  } catch (error) {
+    console.error('数据库查询失败:', error);
+    return {
+      code: 500,
+      message: error.message
+    };
+  }
 }
-
 /**
  * 更新数量
  */

@@ -49,6 +49,16 @@ Page({
    */
   async callCartCloudFunction(action, data = {}) {
     try {
+      console.log('=== updateCartInfo 调试 ===');
+      console.log('1. this.data.shopId 值:', this.data.shopId);
+      console.log('2. this.data.shopId 类型:', typeof this.data.shopId);
+      console.log('3. this.data 完整内容:', JSON.stringify(this.data));
+      
+      // 检查是否有值
+      if (!this.data.shopId) {
+        console.error('shopId 为空，无法查询购物车');
+        return;
+      }
       const res = await wx.cloud.callFunction({
         name: 'cartManager',
         data: { action, data }
@@ -65,9 +75,10 @@ Page({
    */
   async updateCartInfo() {
     try {
-      const result = await this.callCartCloudFunction('getCartCount', {
-        shopId: this.data.shopId
-      })
+      console.log('准备查询的 shopId:', this.data.shopId, '类型:', typeof this.data.shopId);
+      const result = await this.callCartCloudFunction('getCartCount', { 
+        shopId: this.data.shopId 
+      });
       if (result && result.code === 200) {
         const { count, total } = result.data
         this.setData({ 

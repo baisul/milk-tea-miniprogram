@@ -1,13 +1,12 @@
 <!-- pages/hot-list/hot-list.wxml - 全部热门饮品列表页 -->
 <view class="hot-list-page">
   <!-- 头部导航 -->
-  <view class="nav-header">
-    <view class="nav-back" bindtap="goBack">
-      <text class="back-text">返回</text>
-    </view>
-    <text class="nav-title">热门推荐</text>
-    <view class="nav-placeholder"></view>
-  </view>
+    <!-- 顶部导航栏 -->
+    <nav-bar 
+    title="热门推荐" 
+    showBack="{{true}}"
+    backgroundColor="#F7F8FA"
+  />
 
   <!-- 加载中 -->
   <view class="loading-wrap" wx:if="{{loading && hotDrinks.length === 0}}">

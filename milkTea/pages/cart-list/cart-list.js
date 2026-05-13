@@ -106,7 +106,7 @@ Page({
    */
   async loadCartList(refresh = false) {
     if (this.data.loading) return;
-
+  
     if (refresh) {
       this.setData({
         cartList: [],
@@ -119,42 +119,62 @@ Page({
       if (!this.data.hasMore || this.data.loadingMore) return;
       this.setData({ loadingMore: true });
     }
-
+  
     const page = refresh ? 1 : this.data.page;
     const result = await this.callCartCloudFunction('getCartList', {
       page: page,
       pageSize: this.data.pageSize
     });
-
+  
     console.log("云函数返回结果:", result);
-
+  
     this.setData({ loading: false, loadingMore: false });
-
+  
     if (result && result.code === 200 && result.data && result.data.list) {
       const resList = result.data.list;
-      let newList = refresh ? resList : [...this.data.cartList, ...resList];
+      
+      // 去重并合并数据
+      let newList;
+      if (refresh) {
+        newList = resList;
+      } else {
+        // 使用 Map 去重，保留最新的
+        const itemMap = new Map();
+        // 注意：先添加旧数据，再添加新数据，这样新数据会覆盖旧数据（如果需要更新的话）
+        [...this.data.cartList, ...resList].forEach(item => {
+          if (itemMap.has(item._id)) {
+            console.log(`发现重复商品 ID: ${item._id}，已更新为最新数据`);
+          }
+          itemMap.set(item._id, item);
+        });
+        newList = Array.from(itemMap.values());
+      }
+      
+      // 确保每个商品都有 selected 属性，默认为 true
       newList = newList.map(item => ({
         ...item,
-        selected: item.selected !== undefined ? item.selected : true
+        selected: true
       }));
-
+      
+      // 重新分组
       const shopGroups = this.groupCartByShop(newList);
-      console.log("分组后的 shopGroups:", shopGroups);
-
+      
+      // 更新数据
       this.setData({
         cartList: newList,
         shopGroups: shopGroups,
         page: page + 1,
         hasMore: result.data.hasMore || false
-      },() => {
-        console.log('========== setData 完成 ==========');
-        console.log('cartList 长度:', this.data.cartList.length);
-        console.log('shopGroups 长度:', this.data.shopGroups.length);
-        console.log('cartList 数据:', this.data.cartList);
+      }, () => {
+        // 计算总价和选中数量
+        this.calculateSelectedTotal();
+        // 更新全选状态（如果所有商品都选中，allSelected 会变成 true）
+        this.updateAllSelectedStatus();
+        
+        console.log('数据加载完成，当前全选状态:', this.data.allSelected);
+        console.log('选中商品数量:', this.data.selectedCount);
+        console.log('商品总数:', this.data.cartList.length);
       });
-
-      this.calculateSelectedTotal();
-      this.updateAllSelectedStatus();
     }
   },
 

@@ -141,7 +141,7 @@ fetchDeliveryFee(shopId) {
   wx.cloud.callFunction({
     name: 'shopManager',
     data: {
-      action: 'getShopDetail',
+      action: 'getDetail',
       shopId,
     }
   }).then(res => {
@@ -151,6 +151,7 @@ fetchDeliveryFee(shopId) {
       const fee = res.result.data?.deliveryFeeCents || res.result.data?.deliveryFee || 400;
       const deliveryFee = (parseFloat(fee) / 100).toFixed(2);
       this.setData({ deliveryFee: deliveryFee });
+      console.log("配送费用：" + deliveryFee)
       
       // 如果订单类型是外卖，重新计算实付金额
       if (this.data.orderType === 'delivery') {
