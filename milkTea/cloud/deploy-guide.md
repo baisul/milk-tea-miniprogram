@@ -20,6 +20,7 @@
 | favorites | 店铺收藏 |
 | hotDrinks | 热门饮品 |
 | users | 用户信息 |
+| shopping_cart | 购物车信息 |
 
 ## 三、设置数据库权限
 
@@ -55,14 +56,15 @@
 
 1. 在微信开发者工具中，右键点击 `cloudfunctions` 目录下的每个云函数文件夹
 2. 选择「上传并部署：云端安装依赖」
-3. 依次部署以下7个云函数：
-   - `shopManager` - 店铺管理
-   - `drinkManager` - 饮品管理（含分类管理）
-   - `orderManager` - 订单管理
+3. 依次部署以下8个云函数：
    - `addressManager` - 地址管理
+   - `cartManager` - 购物车管理
+   - `drinkManager` - 饮品管理（含分类管理）
    - `favoriteManager` - 收藏管理
-   - `userManager` - 用户管理（含热门饮品管理）
    - `initData` - 初始化数据
+   - `orderManager` - 订单管理
+   - `shopManager` - 店铺管理
+   - `userManager` - 用户管理
 
 ## 五、初始化示例数据
 
